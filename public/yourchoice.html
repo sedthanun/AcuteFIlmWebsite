@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AcuteFilm</title>
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="fontface.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap" rel="stylesheet">
+  <style>
+    .card-img-top {
+      width: 100%;
+      height: 20vh;
+      object-fit: cover;
+    }
+
+    .jumbotron {
+      background-image: url(/img/cover1.webp);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      height: 20em;
+      
+    }
+
+    body {
+      font-family: 'sukhumvitreg';
+      font-size: 1rem;
+    }
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+
+    <a class="navbar-brand" href="#">
+    <img src="img/acute.png" width="40" height="40" alt="" loading="lazy">
+    </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="navbarNavDropdown" class="navbar-collapse collapse">
+          <ul class="navbar-nav">
+              <li class="nav-item active">
+                  <a class="nav-link" href="index.html">หน้าแรก<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="movie.html">ภาพยนตร์</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">ติดต่อเรา</a>
+          </li>
+              
+          </ul>
+          
+      </div>
+  </nav>
+  </div>
+
+  <section class="jumbotron">
+    <h1>Your Choice</h1>
+    <p class="lead">ภาพยนตร์ใหม่ล่าสุด</p>
+    <p><a href="yourchoice.html" class="btn btn-primary btn-lg">เพิ่มเติม </a></p>
+  </section>
+  <div class="container">
+    <h4>Your Choice</h4>
+    <hr class="w-70">
+    <div class="row w-100" id="show">
+
+    </div>
+  </div>
+  <footer class="fixed-bottom container-fluid text-center mt-5">
+    <a href="https://github.com/sedthanun/imshutterx">
+        <img src="img/github-image (1).svg" width="25" height="25" alt="" loading="lazy" style="margin-bottom: 0.2cm;  margin-right: 0.2cm;">
+        </a>
+        <a href="https://www.youtube.com/channel/UCs3Sp3obAK0y2QIu-IVgKiA">
+          <img src="img/youtube (1).svg" width="25" height="25" alt="" loading="lazy" style="margin-bottom: 0.2cm; margin-right: 0.1cm;">
+      </a>
+    <a href="https://www.facebook.com/shutterex">
+        <img src="img/facebook (1).svg" width="25" height="25" alt="" loading="lazy" style="margin-bottom: 0.2cm;">
+    </a>
+    
+  <p>All rights reserved. AcuteFilm 2021</p>
+</footer>
+
+  <script>
+
+    function showMovie(list) {
+      console.log(list.movies.items);
+      var movie = list.movies.items[1]
+      let movies_elm = document.getElementById("show");
+      movies_elm.innerHTML +=
+          `<div class="col-lg-3 col-md-6 mt-3">
+            <p>ชื่อหนัง : ${movie.name} </p>
+            <p>ปีที่ฉาย: ${movie.release}</p>
+            <p>แนวหนัง : ${movie.genre}</p>
+            <p>เนื้อเรื่องย่อ : ${movie.story}</p>
+        </div>   
+        <div class="col-lg-3 col-md-6 mt-3 float-right">
+        <img src="${movie.poster}" width="50%"/>
+        </div>
+     `
+      for (var i = 0; i < list.movies.items.length; i++) {
+        let movies_elm = document.getElementById("show");
+        var movie = list.movies.items[0];
+
+        
+      }
+    }
+    jQuery.getJSON("movies.json", showMovie)
+  </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap" rel="stylesheet">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <style>
+      body{
+          font-family: Kanit;
+      }
+  </style>
+  
+    <title>Quiz The Fame</title>
+</head>
+<body>
+    <div class="container pt-5 mb-5">
+        <h1>แฟนพันธุ์แท้ The Fame</h1>
+        <hr class="w-70">
+        <div class="row">
+            <form id="quiz" name="quiz">
+                <p id="question">
+
+                </p>
+                <input type="button" class="btn btn-primary" value="มั่นใจแล้ว? ส่งเลย" onclick="check();">
+
+            </form>
+
+        </div>
+    </div>
+    <script>
+        function showQuestion(que) {
+            console.log(que.myQuestion);
+        for (var i = 0; i < que.myQuestion.length; i++) {
+        let q_elm = document.getElementById("question");
+        var myq = que.myQuestion[i];
+        var num = i+1;
+        q_elm.innerHTML += 
+        `<h2>${num}.${myq.question}</h2><br>
+        <input type="radio" name="question${i}" value="${myq.opt1}">
+        <label for="${myq.opt1}">${myq.opt1}</label><br>
+        <input type="radio"  name="question${i}" value="${myq.opt2}">
+        <label for="${myq.opt2}">${myq.opt2}</label><br>
+        <input type="radio" name="question${i}" value="${myq.opt3}">
+        <label for="${myq.opt3}">${myq.opt3}</label><br>
+        <input type="radio"  name="question${i}" value="${myq.opt4}">
+        <label for="${myq.opt4}">${myq.opt4}</label><br>
+        `
+        }
+        
+        }
+
+        jQuery.getJSON("quizthefame.json", showQuestion)
+
+        function check(){
+            var score = 0;
+            var q1 = document.quiz.question0.value;
+            var q2 = document.quiz.question1.value;
+            var q3 = document.quiz.question2.value;
+            var q4 = document.quiz.question3.value;
+            var q5 = document.quiz.question4.value;
+            var q6 = document.quiz.question5.value;
+            var q7 = document.quiz.question6.value;
+            var q8 = document.quiz.question7.value;
+            var q9 = document.quiz.question8.value;
+
+            if(q1 == "ครูอัฐวุฒิ"){score++}
+            if(q2 == "ออย บงกชธร"){score++}
+            if(q3 == "โรงอาหาร"){score++}
+            if(q4 == "ทั้งข้อ2 และ ข้อ3"){score++}
+            if(q5 == "กระโดดตึก"){score++}
+            if(q6 == "เกลียดครูที่นี่จังค่ะ สั่งงานตั้งเยอะแต่จะเอาพรุ่งนี้"){score++}
+            if(q7 == "ทั้ง 1 และ 3"){score++}
+            if(q8 == "Little Lion"){score++}
+            if(q9 == "รู้สึกสำนึกผิด"){score++}
+            
+            console.log(score);
+            Swal.fire(`Your Score is ${score}/9`)
+            document.getElementById("quiz").reset();
+            document.cookie = cookiePath + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+    </script>
+
+</body>
+</html>

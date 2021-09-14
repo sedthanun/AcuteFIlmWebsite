@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'sukhumvitlight';
+    src: url('sukhumvitlight-webfont.eot');
+    src: url('sukhumvitlight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sukhumvitlight-webfont.woff') format('woff'),
+         url('sukhumvitlight-webfont.ttf') format('truetype'),
+         url('sukhumvitlight-webfont.svg#rsuregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'sukhumvitreg';
+    src: url('sukhumvitreg-webfont.eot');
+    src: url('sukhumvitreg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sukhumvitreg-webfont.woff') format('woff'),
+         url('sukhumvitreg-webfont.ttf') format('truetype'),
+         url('sukhumvitreg-webfont.svg#rsuregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

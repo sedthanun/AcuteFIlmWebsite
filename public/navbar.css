@@ -1,0 +1,178 @@
+/* navbar */
+nav ul{
+    margin: 0;
+    padding: 0!important;
+    float: left;
+    list-style: none;
+    position: relative;
+}
+
+
+nav li {
+    display: inline-block;
+    padding: 0px 15px;
+}
+
+nav a{
+    color: black;
+}
+
+nav a:hover{
+    color: gray;
+    text-decoration: none;
+
+}
+
+nav{   
+    display: flex;
+    justify-content: center;
+    padding: 20px 0px;
+    margin:0;
+    position: relative;
+    
+}
+
+.logo{
+    cursor: pointer;
+}
+
+
+.menu-sub{
+    display: block;
+    background-color: white;
+    transition: height .5s ease-in-out;
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    max-height: 550px;
+    position: absolute;
+    left: 0;
+    top: -1.5rem;
+    z-index: -2;
+    padding-top: 3.4rem;
+}
+ 
+.menu-menu{
+    display: block;
+    background-color: white;
+    transition: height .5s ease-in-out;
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    max-height: 350px;
+    position: absolute;
+    left: 0;
+    top: -1.5rem;
+    z-index: -2;
+    padding-top: 3.4rem;
+}
+
+.menu-search{
+    display: block;
+    background-color: white;
+    transition: height .5s ease-in-out;
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    max-height: 170px;
+    position: absolute;
+    left: 0;
+    top: -1.5rem;
+    z-index: -2;
+    padding-top: 3.4rem;
+}
+
+nav li.open .menu-search{
+    height: 170px;
+    margin: 0px;
+    box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.377);
+}
+
+nav li.open .menu-menu{
+    height: 350px;
+    margin: 0px;
+    box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.377);
+}
+
+
+nav li.open .menu-sub{
+    height: 550px;
+    margin: 0px;
+    box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.377);
+}
+nav li:nth-child(4){
+    margin-left: 30vw;
+}
+.square::before{
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    background: red;
+    transform: skew(-30deg);
+}
+
+.icon::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+.mail::before {
+    font-family: "Font Awesome 5 Free"; font-weight: normal; content: "\f0e0";
+  }
+.drive::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f1b9";
+  }
+
+.bottom-right{
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  font-size: 18px;
+  }
+
+.x-btn{
+    border: unset;
+    background-color: unset;
+    font-size: 30px;
+}
+
+.menu-search .x-btn{
+    margin-top: -20px;
+    float: right;
+    padding-right: 2%;
+}
+
+.pic-menu{
+    display: flex;
+    justify-content: space-between;
+}
+.pic-menu:hover{
+    background-color:whitesmoke;
+}
+
+.search-btn{
+    border: unset;
+    color: white;
+    background-color: black;
+    margin-top: 1px;
+    padding: 7px;
+    margin-left: 0px;
+   
+}
+
+button:focus{
+    outline: 0;
+}
+
+
+
+
+
+.h1{
+    font-weight: bold;
+}
