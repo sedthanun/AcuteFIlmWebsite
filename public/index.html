@@ -15,6 +15,7 @@
     crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <style>
     .card-img-top {
       width: 100%;
@@ -39,6 +40,49 @@
       background-color: #f2f2f2;
       padding: 25px;
     }
+    .full-screen{
+      position: fixed;
+      display: block;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.9);
+      z-index: 2000;
+      box-sizing: border-box;
+    }
+    .full-screen iframe{
+      margin: 50px;
+      width: 100%;
+      height: 100%;      
+    }
+    .flex-container-center{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .hidden{
+      display: none;
+      
+    }
+    .stop-video{
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 40px;
+      width: 40px;
+      font-size: 1.5rem;
+      border-radius: 2px;
+      background-color:rgba(255,255,255,0.5);
+      border: none;
+      margin : 10px;
+      cursor: pointer;
+    }
+    button:focus {outline:0;}
+   
+   
+    
   </style>
 </head>
 
@@ -47,7 +91,7 @@
     <nav class="navbar navbar-expand-lg navbar-light ">
 
     <a class="navbar-brand" href="#">
-    <img src="img/acute.png" width="40" height="40" alt="" loading="lazy">
+    <img src="img/acute.svg" width="70" height="70" alt="" loading="lazy">
     </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -69,7 +113,10 @@
       </div>
   </nav>
   </div>
-
+  <div class="full-screen flex-container-center"> 
+    <button onclick="togglePopup()" class="stop-video">x</button>
+    <iframe class="youtube-video" width="1920" height="890" src="https://www.youtube.com/embed/utHQKQkClao?enablejsapi=1&version=3&playerapiid=ytplayer" modestbranding="0"  controls="0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div> 
   <section class="jumbotron">
     <h1>Your Choice</h1>
     <p class="lead">ภาพยนตร์ใหม่ล่าสุด</p>
@@ -83,13 +130,13 @@
     </div>
   </div>
   <footer class="fixed-bottom container-fluid text-center mt-5">
-    <a href="https://github.com/sedthanun/imshutterx">
+    <a href="https://github.com/sedthanun/AcuteFIlmWebsite/">
         <img src="img/github-image (1).svg" width="25" height="25" alt="" loading="lazy" style="margin-bottom: 0.2cm;  margin-right: 0.2cm;">
         </a>
         <a href="https://www.youtube.com/channel/UCs3Sp3obAK0y2QIu-IVgKiA">
           <img src="img/youtube (1).svg" width="25" height="25" alt="" loading="lazy" style="margin-bottom: 0.2cm; margin-right: 0.1cm;">
       </a>
-    <a href="https://www.facebook.com/shutterex">
+    <a href="https://www.facebook.com/acutefilm">
         <img src="img/facebook (1).svg" width="25" height="25" alt="" loading="lazy" style="margin-bottom: 0.2cm;">
     </a>
     
@@ -97,6 +144,15 @@
 </footer>
 
   <script>
+    const popup = document.querySelector('.full-screen');
+
+    function togglePopup(){
+      popup.classList.toggle('hidden');
+
+    }
+    $('button.stop-video').click(function(){
+	$('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+});
 
     function showMovie(list) {
       console.log(list.movies.items);
