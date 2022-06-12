@@ -1,0 +1,134 @@
+/* Some CSS Setup - nothing to do with flexbox */
+
+  
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+  }
+  
+section{
+    max-width: calc(1024px+2rem);
+    margin: auto;
+    box-sizing: border-box;
+}
+
+
+nav{
+    padding: 0 2rem;
+}
+
+.bg-black{
+  background: black;
+}
+.hero-container{
+  display: block;
+  margin: 0;
+
+
+}
+
+.element{
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 150px);
+  display: inline-block;
+  overflow: hidden;
+}
+
+.movie-info{
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+  background-image: url(img/hero-thefame.png);
+  background-size: cover;
+  background-position: center center;
+}
+
+.play-btn{
+  width: 50px;
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transition: all 300ms ease-in-out;
+}
+
+.movie-info:hover {
+  transform: scale(1.05); 
+}
+
+.movie-detail{
+  font-size: 25px;
+  line-height: 48px;
+  bottom:5%;
+  position: absolute;
+  margin: 0 25px;
+  color: #fff;
+
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+
+}
+.flex-center-parent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hover-underline-animation {
+    display: inline-block;
+    position: relative;
+    color:lightskyblue;
+  }
+  
+  .hover-underline-animation:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: 
+ lightskyblue;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  
+  .hover-underline-animation:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  .darkgray{
+      background: gray;
+  }
+  @media screen and (max-width: 992px) {
+    .element{
+      width: 100%;
+      height: 100vh;
+      
+      
+    }
+   
+    .navbar-nav {
+        height: 100vh !important;
+        padding: 2rem !important;
+      }
+   
+    .navbar-nav li{
+  
+        display: flex !important;
+        background: black;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 1rem;
+    }
+
+
+
+
