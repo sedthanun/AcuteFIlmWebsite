@@ -16,6 +16,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap" rel="stylesheet">
   <style>
+
+   
+    html,body{
+      min-height: 100vh;
+      font-size: 1rem;
+    }
+    .navbar-nav li{
+      font-size: 1.5rem;
+      font-family: "sukhumvit_setbold", sans-serif;
+
+    }
+  
     .card-img-top {
       width: 100%;
       height: 20vh;
@@ -23,31 +35,62 @@
     }
 
     .jumbotron {
-      background-image: url(/img/cover1.webp);
-      background-position: center center;
+      color: white;
+      background-image: url(img/cover1.png);
+      background-position: 50%;
       background-repeat: no-repeat;
-      background-size: contain;
-      height: 20em;
+      background-size: cover;
+      height: calc(100vh - 300px);
+    
       
     }
 
     body {
-      font-family: 'sukhumvitreg';
-      font-size: 1rem;
+      font-family: "sukhumvit_settext", sans-serif;
+      
     }
     footer {
+      position: sticky;
+      top:100%;
       background-color: #f2f2f2;
       padding: 25px;
+      clear: both;
     }
+
+    @media screen and (max-width: 992px) {
+    .jumbotron{
+      width: 100%;
+      height: 100vh;
+      
+      
+    }
+  }
+  .vdocontainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+  .responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
   </style>
+</head>
 </head>
 
 <body>
-  <div class="container">
+ 
     <nav class="navbar navbar-expand-lg navbar-light ">
 
     <a class="navbar-brand" href="#">
-    <img src="img/acute.svg" width="70" height="70" alt="" loading="lazy">
+    <img src="img/acute.svg" width="70" height="70" alt="" >
     </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -68,12 +111,12 @@
           
       </div>
   </nav>
-  </div>
+
 
   <section class="jumbotron">
     <h1>Your Choice</h1>
     <p class="lead">ภาพยนตร์ใหม่ล่าสุด</p>
-    <p><a href="yourchoice.html" class="btn btn-primary btn-lg">เพิ่มเติม </a></p>
+
   </section>
   <div class="container">
     <h4>Your Choice</h4>
@@ -81,19 +124,24 @@
     <div class="row w-100" id="show">
 
     </div>
+    <div class="row">
+      <div class="vdocontainer mt-5">
+        <iframe class="responsive-iframe" src="https://www.youtube.com/embed/HuU9Myw6Ik0"></iframe>
+      </div>
+    </div>
   </div>
-  <footer class="fixed-bottom container-fluid text-center mt-5">
+  <footer class="container-fluid text-center mt-5">
     <a href="https://github.com/sedthanun/imshutterx">
-        <img src="img/github-image (1).svg" width="25" height="25" alt="" loading="lazy" style="margin-bottom: 0.2cm;  margin-right: 0.2cm;">
+        <img src="img/github-image (1).svg" width="25" height="25" alt=""  style="margin-bottom: 0.2cm;  margin-right: 0.2cm;">
         </a>
         <a href="https://www.youtube.com/channel/UCs3Sp3obAK0y2QIu-IVgKiA">
-          <img src="img/youtube (1).svg" width="25" height="25" alt="" loading="lazy" style="margin-bottom: 0.2cm; margin-right: 0.1cm;">
+          <img src="img/youtube (1).svg" width="25" height="25" alt=""  style="margin-bottom: 0.2cm; margin-right: 0.1cm;">
       </a>
     <a href="https://www.facebook.com/shutterex">
-        <img src="img/facebook (1).svg" width="25" height="25" alt="" loading="lazy" style="margin-bottom: 0.2cm;">
+        <img src="img/facebook (1).svg" width="25" height="25" alt=""  style="margin-bottom: 0.2cm;">
     </a>
     
-  <p>All rights reserved. AcuteFilm 2021</p>
+  <p>All rights reserved. AcuteDM 2021</p>
 </footer>
 
   <script>
@@ -110,7 +158,7 @@
             <p>เนื้อเรื่องย่อ : ${movie.story}</p>
         </div>   
         <div class="col-lg-3 col-md-6 mt-3 float-right">
-        <img src="${movie.poster}" width="50%"/>
+        <img src="${movie.poster}" width="50%" loading="lazy"/>
         </div>
      `
       for (var i = 0; i < list.movies.items.length; i++) {
