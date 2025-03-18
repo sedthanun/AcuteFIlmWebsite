@@ -67,7 +67,7 @@
   }
   </style>
 </head>
-</head>
+
 
 <body>
 
@@ -82,7 +82,7 @@
       <div id="navbarNavDropdown" class="navbar-collapse collapse">
           <ul class="navbar-nav">
               <li class="nav-item active">
-                  <a class="nav-link" href="index.html">หน้าแรก<span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="/index">หน้าแรก<span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">ภาพยนตร์</a>
@@ -120,7 +120,7 @@
         <img src="img/facebook (1).svg" width="25" height="25" alt=""  style="margin-bottom: 0.2cm;">
     </a>
     
-  <p>All rights reserved. AcuteDM 2021</p>
+  <p>All rights reserved. AcuteDM 2025</p>
 </footer>
 
   <script>
@@ -148,7 +148,10 @@
           <p>
             นักแสดง : ${ movie.short}
           </p>
-          <a href="${movie.url}" class="btn btn-outline-dark">รายละเอียด</a>
+<a href="movie-detail.html?movie=${encodeURIComponent(movie.name.replace(/\s+/g, '-').toLowerCase())}" class="btn btn-outline-dark">รายละเอียด</a>
+
+
+
         </div>
         </div>
         </div>   

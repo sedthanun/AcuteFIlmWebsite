@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" id="meta-title" content="">
+  <meta property="og:url" id="meta-url" content="">
+  <meta property="og:description" id="meta-description" content="">
+  <meta property="og:image" id="meta-image" content="https://acutefilmmovies.web.app/img/cover1.png">
+  <title>Movie Detail - AcuteFilm</title>
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="fontface.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/6719d38d22.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap" rel="stylesheet">
+  <style>
+
+   
+    html,body{
+      min-height: 100vh;
+      font-size: 1rem;
+    }
+    .navbar-nav li{
+      font-size: 1.5rem;
+      font-family: "sukhumvit_setbold", sans-serif;
+
+    }
+  
+    .card-img-top {
+      width: 100%;
+      height: 20vh;
+      object-fit: cover;
+    }
+
+    .jumbotron {
+      color: white;
+      background-image: url(img/cover1.png);
+      background-position: 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: calc(100vh - 300px);
+    
+      
+    }
+
+    body {
+      font-family: "sukhumvit_settext", sans-serif;
+      
+    }
+    footer {
+      position: sticky;
+      top:100%;
+      background-color: #f2f2f2;
+      padding: 25px;
+      clear: both;
+    }
+
+    @media screen and (max-width: 992px) {
+    .jumbotron{
+      width: 100%;
+      height: 100vh;
+      
+      
+    }
+  }
+  .vdocontainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+  .responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.social-icons{
+  margin-top: 20px;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  clear: both;
+}
+  </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light ">
+
+        <a class="navbar-brand" href="#">
+        <img src="img/acute.svg" width="70" height="70" alt="" >
+        </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div id="navbarNavDropdown" class="navbar-collapse collapse">
+              <ul class="navbar-nav">
+                  <li class="nav-item active">
+                      <a class="nav-link" href="/index">หน้าแรก<span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/movie">ภาพยนตร์</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">ติดต่อเรา</a>
+              </li>
+                  
+              </ul>
+              
+          </div>
+      </nav>
+    
+    
+      <section class="jumbotron">
+        <h1>Your Choice</h1>
+        <p class="lead">ภาพยนตร์ใหม่ล่าสุด</p>
+    
+      </section>
+      <div class="container">
+        <h4 class="font-weight-bold" id="movieHeading">Your Choice</h4>
+        <hr class="w-70">
+        <div class="row w-100" id="show">
+            <div class="col-lg-3 col-md-6 mt-3">
+                <span><p>ชื่อหนัง :</p> <p id="movieTitle"></p> </span>
+                <p id ="movieRelease"></p>
+                <p id ="movieGenre"></p>
+                <p id ="movieSynopsis"></p>
+            </div>   
+            <div class="col-lg-3 mx-auto mt-3 float-right">
+            <img id="moviePoster" src="" alt="Movie Poster" width="100%" loading="lazy">
+            </div>
+        </div>
+        <div class="row">
+          <div class="vdocontainer mt-5">
+            <iframe id="movieVideo" class="responsive-iframe" src=""></iframe>
+          </div>
+          <div class="social-icons">
+            <a id="facebookShare" target="_blank">
+                <p><i class="fa-brands fa-facebook fa-3x"></i> Share on FB</p>
+            </a>
+            <a id="twitterShare" target="_blank">
+                <p><i class="fa-brands fa-x-twitter fa-3x"></i> Repost on X</p>
+            </a>
+        </div>
+        
+        </div>
+      </div>
+      <footer class="container-fluid text-center mt-5">
+        <a href="https://github.com/sedthanun/imshutterx">
+            <img src="img/github-image (1).svg" width="25" height="25" alt=""  style="margin-bottom: 0.2cm;  margin-right: 0.2cm;">
+            </a>
+            <a href="https://www.youtube.com/channel/UCs3Sp3obAK0y2QIu-IVgKiA">
+              <img src="img/youtube (1).svg" width="25" height="25" alt=""  style="margin-bottom: 0.2cm; margin-right: 0.1cm;">
+          </a>
+        <a href="https://www.facebook.com/shutterex">
+            <img src="img/facebook (1).svg" width="25" height="25" alt=""  style="margin-bottom: 0.2cm;">
+        </a>
+        
+      <p>All rights reserved. AcuteDM 2025</p>
+    </footer>
+    
+
+<script>
+  window.onload = function() {
+    // Call the loadMovieDetails function once the page is loaded
+    loadMovieDetails();
+};
+
+async function loadMovieDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieSlug = urlParams.get("movie");
+
+    if (!movieSlug) {
+        document.body.innerHTML = "<h2>Movie Not Found</h2>";
+        return;
+    }
+
+    const response = await fetch('movies.json'); // Fetch all movies
+    const movies = await response.json();
+
+    // Find the correct movie by name, making sure the comparison is case-insensitive
+    const movie = movies.movies.items.find(m => m.name.replace(/\s+/g, '-').toLowerCase() === movieSlug.toLowerCase());
+
+    if (movie) {
+        document.getElementById("movieHeading").innerText = movie.name;
+        document.getElementById("movieTitle").innerText = movie.name;
+        document.getElementById("moviePoster").src = movie.poster;
+        document.getElementById("movieGenre").innerText = "Genre: " + movie.genre;
+        document.getElementById("movieRelease").innerText = "Release Date: " + movie.release;
+        document.getElementById("movieSynopsis").innerText = "Synopsis: " + (movie.synopsis || "No synopsis available.");
+        document.getElementById("movieVideo").src = movie.video;
+        
+         // ✅ Update Open Graph Meta Tags for social sharing
+         $("meta[property='og:title']").attr("content", movie.name + " | AcuteFilm");
+         $("meta[property='og:description']").attr("content", movie.synopsis || "Watch " + movie.name + " on AcuteFilm.");
+         $("meta[property='og:image']").attr("content", movie.poster);
+         $("meta[property='og:url']").attr("content", window.location.href);
+    } else {
+        document.body.innerHTML = "<h2>Movie Not Found</h2>";
+    }
+}
+
+
+
+</script>
+
+</body>
+</html>
