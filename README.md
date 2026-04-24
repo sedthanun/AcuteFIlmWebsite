@@ -1,4 +1,4 @@
-# AcuteFilm Website (2026 Redesign)
+# AcuteFilm Website 
 
 ยินดีต้อนรับสู่โปรเจกต์เว็บไซต์อย่างเป็นทางการของ **AcuteFilm** 
 
