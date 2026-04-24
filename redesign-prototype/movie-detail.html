@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Detail | AcuteFilm</title>
+    <meta name="description" content="ร่วมสัมผัสประสบการณ์ภาพยนตร์คุณภาพจาก AcuteFilm">
+    
+    <!-- SEO & Social Sharing (OG Tags) -->
+    <meta property="og:type" content="video.movie">
+    <meta property="og:title" id="meta-og-title" content="Movie Detail | AcuteFilm">
+    <meta property="og:description" id="meta-og-desc" content="ร่วมสัมผัสประสบการณ์ภาพยนตร์คุณภาพจาก AcuteFilm">
+    <meta property="og:image" id="meta-og-image" content="img/logo-new.png">
+    <meta property="og:url" id="meta-og-url" content="">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/6719d38d22.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a class="navbar-brand" href="index.html">
+            <img src="img/logo-new.png" alt="AcuteFilm Logo">
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="movie.html">ภาพยนตร์</a></li>
+            <li><a href="news.html">ข่าวสาร</a></li>
+            <li><a href="about-us.html">ติดต่อเรา</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="hero" id="movie-hero" style="height: 60vh; align-items: flex-start; padding-bottom: 4rem;">
+        <img id="hero-bg" src="" alt="" class="hero-bg" style="filter: brightness(0.4) blur(10px);">
+        <div class="hero-overlay" style="background: linear-gradient(to top, var(--bg-color), transparent);"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 id="movie-title-hero" style="font-size: 4rem;"></h1>
+                <p id="movie-genre-hero" style="color: var(--primary-color); font-weight: 600;"></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section" style="padding-top: 0; margin-top: -100px; position: relative; z-index: 10;">
+        <div class="container movie-detail-container">
+            
+            <div class="movie-details-info">
+                <div class="glass" style="padding: 3rem; border-radius: 24px; margin-bottom: 3rem;">
+                    <h2 style="margin-bottom: 1.5rem; font-weight: 700;">เรื่องย่อ (Synopsis)</h2>
+                    <p id="movie-synopsis" style="font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem;"></p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; border-top: 1px solid var(--surface-border); padding-top: 2rem;">
+                        <div>
+                            <h5 style="color: var(--primary-color); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Release Year</h5>
+                            <p id="movie-release" style="font-weight: 600;"></p>
+                        </div>
+                        <div>
+                            <h5 style="color: var(--primary-color); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Actors</h5>
+                            <p id="movie-actors" style="font-weight: 600;"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-wrapper glass" style="border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+                    <div style="position: relative; padding-top: 56.25%;">
+                        <iframe id="movie-video" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="share-links" style="margin-top: 3rem; display: flex; gap: 2rem; justify-content: center;">
+                    <a id="fb-share" href="#" target="_blank" style="color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 0.8rem; opacity: 0.7; transition: 0.3s;">
+                        <i class="fab fa-facebook fa-2x"></i> <span>Share</span>
+                    </a>
+                    <a id="tw-share" href="#" target="_blank" style="color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 0.8rem; opacity: 0.7; transition: 0.3s;">
+                        <i class="fab fa-twitter fa-2x"></i> <span>Tweet</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="movie-poster-sidebar">
+                <img id="movie-poster-img" src="" alt="" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid var(--surface-border);">
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/sedthanun/AcuteFIlmWebsite/"><i class="fab fa-github"></i></a>
+            <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p class="copyright">All rights reserved. AcuteDM 2025-2026</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script type="module">
+        // Scroll to top functionality
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        // Navbar and Scroll to top effect
+        window.onscroll = function() {
+            const nav = document.getElementById('navbar');
+            if (window.pageYOffset > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        };
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navLinks = document.getElementById('nav-links');
+        mobileToggle.addEventListener('click', () => {
+            mobileToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Fetch Movie Detail from Firestore
+        import { db } from './firebase-config.js';
+        import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        async function initMovieDetail() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const slug = params.get('v');
+
+                const q = query(collection(db, 'movies'), where('slug', '==', slug));
+                const snapshot = await getDocs(q);
+
+                let movie;
+                if (!snapshot.empty) {
+                    movie = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
+                } else {
+                    // fallback: load first movie
+                    const fallback = await getDocs(collection(db, 'movies'));
+                    movie = { id: fallback.docs[0].id, ...fallback.docs[0].data() };
+                }
+
+                displayMovieDetails(movie);
+            } catch (error) {
+                console.error('Error loading movie details:', error);
+                document.body.innerHTML += '<div style="position:fixed;top:0;left:0;width:100%;background:red;color:white;text-align:center;padding:10px;z-index:9999;">ไม่สามารถโหลดข้อมูลหนังได้</div>';
+            }
+        }
+
+        function displayMovieDetails(movie) {
+            const currentURL = window.location.href;
+            
+            document.title = `${movie.name} | AcuteFilm`;
+            const description = movie.synopsis.substring(0, 160) + "...";
+            
+            document.querySelector('meta[name="description"]').setAttribute("content", description);
+            document.getElementById('meta-og-title').setAttribute("content", movie.name);
+            document.getElementById('meta-og-desc').setAttribute("content", description);
+            document.getElementById('meta-og-image').setAttribute("content", window.location.origin + "/" + (movie.hero || movie.poster));
+            document.getElementById('meta-og-url').setAttribute("content", currentURL);
+
+            document.getElementById('hero-bg').src = movie.hero || movie.poster;
+            document.getElementById('movie-title-hero').innerText = movie.name;
+            document.getElementById('movie-genre-hero').innerText = movie.genre;
+            document.getElementById('movie-synopsis').innerText = movie.synopsis;
+            document.getElementById('movie-release').innerText = movie.release;
+            document.getElementById('movie-actors').innerText = movie.actors;
+            document.getElementById('movie-video').src = movie.video;
+            document.getElementById('movie-poster-img').src = movie.poster;
+
+            const encodedURL = encodeURIComponent(currentURL);
+            document.getElementById('fb-share').href = `https://www.facebook.com/sharer/sharer.php?u=${encodedURL}`;
+            document.getElementById('tw-share').href = `https://twitter.com/intent/tweet?url=${encodedURL}&text=Watching ${movie.name}`;
+        }
+
+        initMovieDetail();
+    </script>
+</body>
+</html>

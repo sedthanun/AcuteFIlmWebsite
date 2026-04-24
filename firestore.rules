@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      // Production Mode:
+      // อนุญาตให้อ่านอย่างเดียว เพื่อให้หน้าเว็บแสดงผลได้
+      allow read: if true;
+      
+      // ไม่อนุญาตให้ใครเขียนหรือลบข้อมูล (รวมถึงหน้า admin.html จะเพิ่มข้อมูลไม่ได้ด้วยชั่วคราว)
+      allow write: if false;
+    }
+  }
+}

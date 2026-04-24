@@ -7,7 +7,7 @@
     <meta property="og:url" id="meta-url" content="" />
     <meta property="og:description" id="meta-description" content="" />
     <meta property="og:image" id="meta-image" content="" />
-    <title>Movie Detail - AcuteFilm</title>
+    <title>News Detail - AcuteFilm</title>
     <link rel="stylesheet" href="/navbar.css" />
     <!--<link rel="stylesheet" href="/fontface.css">!-->
     <link rel="stylesheet" href="/style-v1.css" />
@@ -35,8 +35,8 @@
     <style>
       .jumbotron {
         color: white;
-        background-image: url(/img/cover2.png);
-        background-position: 50%;
+        background-image: url(img/hero-thefame.png);
+        background-position: auto;
         background-repeat: no-repeat;
         background-size: cover;
         height: 100%;
@@ -53,35 +53,12 @@
       }
 
       @media screen and (max-width: 480px) {
+        .container h2 {
+          font-size: 20px;
+        }
         .jumbotron h1 {
           font-size: 20px;
         }
-      }
-
-      @media screen and (min-width: 992px) {
-        html,
-        body {
-          font-size: 0.8vw;
-        }
-        .jumbotron {
-          height: 45vh;
-        }
-      }
-      .vdocontainer {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-        padding-top: 56.25%; /* 16:9 Aspect Ratio */
-      }
-      .responsive-iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
       }
       .social-icons {
         margin-top: 20px;
@@ -95,10 +72,10 @@
   </head>
 
   <body>
+    <!-- Loading Overlay -->
     <div id="loading-overlay">
       <div class="spinner"></div>
     </div>
-
     <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" href="#">
         <img src="/img/acute.svg" width="70" height="70" alt="" />
@@ -132,42 +109,39 @@
     </nav>
     <div class="container-fluid" style="padding: 0 !important">
       <section class="jumbotron">
-        <h1>Good Old Friend เพื่อนเก่า</h1>
+        <h1>The Fame</h1>
         <p class="lead">ภาพยนตร์ใหม่ล่าสุด</p>
         <p>
-          <a href="/movie/Good-Old-Friend" class="btn btn-primary btn-lg"
+          <a href="/movie/The-Fame?v=2" class="btn btn-primary btn-lg"
             >เพิ่มเติม
           </a>
         </p>
       </section>
     </div>
     <div class="container">
-      <h4 class="font-weight-bold" id="movieHeading"></h4>
+      <h4 class="font-weight-bold" id="newsHeading"></h4>
       <hr class="w-70" />
-      <div class="row w-100" id="show">
-        <div class="col-lg-3 col-md-6 mt-3">
-          <span
-            ><p>ชื่อหนัง :</p>
-            <p id="movieTitle"></p>
-          </span>
-          <p id="movieRelease"></p>
-          <p id="movieGenre"></p>
-          <p id="movieSynopsis"></p>
+      <span
+        ><span id="newsCategory" class="badge badge-pill badge-info"
+          ></span
+        >&nbsp;&nbsp;<span class="badge badge-pill badge-danger">ข่าว</span>
+      </span>
+      <div class="row d-flex flex-column p-5" id="show">
+        <div class="row mx-auto">
+          <div class="container" style="max-width: 500px">
+            <img class="img-fluid" src="" id="newslmg" alt="" loading="lazy" />
+          </div>
         </div>
-        <div class="col-lg-3 mx-auto mt-3 float-right">
-          <img
-            id="moviePoster"
-            src=""
-            alt="Movie Poster"
-            width="100%"
-            loading="lazy"
-          />
+        <br />
+        <div class="row mt-2">
+          <p id="newsStory">รายละเอียดข่าวตรงนี้...</p>
+        </div>
+        <div class="row">
+          <p id="lastEdited">Last Edited</p>
         </div>
       </div>
+
       <div class="row">
-        <div class="vdocontainer mt-5">
-          <iframe id="movieVideo" class="responsive-iframe" src=""></iframe>
-        </div>
         <div class="social-icons">
           <a id="facebookShare" target="_blank">
             <p><i class="fa-brands fa-facebook fa-3x"></i> Share on FB</p>
@@ -211,84 +185,47 @@
     </footer>
 
     <script>
-      window.addEventListener("popstate", function (event) {
-        const currentUrl = window.location.pathname;
-
-        // If the current page is a movie detail page (e.g., /movie/The-Fame)
-        if (currentUrl.startsWith("/movie/")) {
-          // Redirect the user to the /movie page
-          window.location.href = "/movie";
-        }
-      });
       window.onload = function () {
-        const pathSegments = window.location.pathname.split("/");
-        let movieSlug = decodeURIComponent(
-          pathSegments[pathSegments.length - 1]
-        );
-
-        console.log("Extracted Slug:", movieSlug); // ✅ Debug: Check extracted slug
-
-        if (movieSlug) {
-          loadMovieDetails(movieSlug);
-        } else {
-          document.body.innerHTML = "<h2>Movie Not Found</h2>";
-        }
+        // Call the loadMovieDetails function once the page is loaded
+        loadNews();
       };
       window.addEventListener("load", function () {
         // Hide the loading overlay when the page has fully loaded
         document.getElementById("loading-overlay").style.display = "none";
       });
 
-      async function loadMovieDetails(movieSlug) {
-        const response = await fetch("/movies.json");
-        const movies = await response.json();
+      async function loadNews() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const newsSlug = urlParams.get("news");
 
-        // 🔥 Find movie by SLUG instead of name
-        const movie = movies.movies.items.find((m) => m.slug === movieSlug);
+        console.log(urlParams);
+        console.log(newsSlug);
 
-        if (movie) {
-          document.title = `${movie.name} | AcuteFilm`;
-          document.getElementById("movieHeading").innerText = movie.name;
-          document.getElementById("movieTitle").innerText = movie.name;
-          document.getElementById("moviePoster").src = movie.poster;
-          document.getElementById("movieGenre").innerText =
-            "Genre: " + movie.genre;
-          document.getElementById("movieRelease").innerText =
-            "Release Date: " + movie.release;
-          document.getElementById("movieSynopsis").innerText =
-            "Synopsis: " + (movie.synopsis || "No synopsis available.");
-          document.getElementById("movieVideo").src = movie.video;
+        if (!newsSlug) {
+          document.body.innerHTML = "<h2>News1 Not Found</h2>";
+          return;
+        }
+        const response = await fetch("/news.json");
+        const news = await response.json();
+        console.log(news.news.items);
+        const newl = news.news.items.find((n) => n.slug === newsSlug);
 
-          // ✅ Update Open Graph Meta Tags
-          document
-            .querySelector("meta[property='og:title']")
-            .setAttribute("content", movie.name + " | AcuteFilm");
-          document
-            .querySelector("meta[property='og:description']")
-            .setAttribute(
-              "content",
-              movie.synopsis || "Watch " + movie.name + " on AcuteFilm."
-            );
-          //document.querySelector("meta[property='og:image']").setAttribute("content", movie.poster);
-          document
-            .querySelector("meta[property='og:url']")
-            .setAttribute("content", window.location.href);
-
-          // ✅ Update Social Share Links
-          document.getElementById(
-            "facebookShare"
-          ).href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-            window.location.href
-          )}`;
-          document.getElementById(
-            "twitterShare"
-          ).href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-            window.location.href
-          )}&text=${encodeURIComponent(movie.name)}`;
+        if (newl) {
+          console.log(newl.name);
+          const storyWithHtml = newl.story;
+          document.getElementById("newsCategory").innerText = newl.category;
+          document.getElementById("newsHeading").innerText = newl.name;
+          document.getElementById("newslmg").src = newl.poster;
+          document.getElementById("newsStory").innerHTML = newl.story;
+          document.getElementById("lastEdited").innerText =
+            "Last Edited: " + newl.date;
+          //console.log("find newl now");
         } else {
-          document.body.innerHTML = "<h2>Movie Not Found</h2>";
+          document.body.innerHTML = "<h2>News2 Not Found</h2>";
         }
       }
     </script>
   </body>
 </html>
+
+}

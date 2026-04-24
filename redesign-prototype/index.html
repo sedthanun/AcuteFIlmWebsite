@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcuteFilm | Short Films & Productions</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js">
+    <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js">
+    <script src="https://kit.fontawesome.com/6719d38d22.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a class="navbar-brand" href="#">
+            <img src="img/logo-new.png" alt="AcuteFilm Logo">
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html" class="active">หน้าแรก</a></li>
+            <li><a href="movie.html">ภาพยนตร์</a></li>
+            <li><a href="news.html">ข่าวสาร</a></li>
+            <li><a href="about-us.html">ติดต่อเรา</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero-slider">
+        <!-- Slide 1: The Fame -->
+        <div class="slide active">
+            <img src="img/hero-thefame.png" alt="The Fame" class="hero-bg">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>The Fame</h1>
+                <p>ชื่อเสีย(ง)</p>
+                <a href="movie-detail.html?v=The-Fame" class="btn-primary">ดูเพิ่มเติม</a>
+            </div>
+        </div>
+
+        <!-- Slide 2: Your Choice -->
+        <div class="slide">
+            <img src="img/Your Choice.webp" alt="Your Choice" class="hero-bg">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Your Choice</h1>
+                <p>คนที่รัก ไม่รักเรา</p>
+                <a href="movie-detail.html?v=Your-Choice" class="btn-primary">ดูเพิ่มเติม</a>
+            </div>
+        </div>
+
+        <!-- Slide 3: Good Old Friend -->
+        <div class="slide">
+            <img src="img/gof.jpg" alt="Good Old Friend" class="hero-bg">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Good Old Friend</h1>
+                <p>มิตรภาพที่ไม่มีวันเลือนลาง แม้กาลเวลาจะผ่านไปนานแค่ไหนก็ตาม</p>
+                <a href="movie-detail.html?v=Good-Old-Friend" class="btn-primary">ดูเพิ่มเติม</a>
+            </div>
+        </div>
+
+        <!-- Universal-style Pill Navigation -->
+        <div class="slider-nav-container">
+            <div class="slider-nav-pill">
+                <div class="nav-arrows">
+                    <button class="nav-btn" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+                    <button class="nav-btn" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                
+                <div class="nav-items">
+                    <div class="nav-item active" onclick="currentSlide(0)">
+                        <span class="title">The Fame</span>
+                    </div>
+                    <div class="nav-item" onclick="currentSlide(1)">
+                        <span class="title">Your Choice</span>
+                    </div>
+                    <div class="nav-item" onclick="currentSlide(2)">
+                        <span class="title">Good Old Friend</span>
+                    </div>
+                </div>
+
+                <div class="nav-controls">
+                    <button class="nav-btn" id="pause-btn"><i class="fas fa-pause"></i></button>
+                </div>
+
+                <div class="pill-progress-track">
+                    <div class="pill-progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section animate-on-scroll">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our News</h2>
+                <hr>
+            </div>
+            
+            <div class="news-grid" id="news-container">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/sedthanun/AcuteFIlmWebsite/"><i class="fab fa-github"></i></a>
+            <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p class="copyright">All rights reserved. AcuteDM 2025-2026</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script type="module">
+        // Scroll to top functionality
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        
+        // Navbar and Scroll to top effect
+        window.onscroll = function() {
+            const nav = document.getElementById('navbar');
+            if (window.pageYOffset > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        };
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileToggle.addEventListener('click', () => {
+            mobileToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            // Prevent scrolling when menu is open
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Fetch News Data from Firestore
+        import { db } from './firebase-config.js';
+        import { collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        const newsContainer = document.getElementById('news-container');
+
+        async function loadNews() {
+            try {
+                const q = query(collection(db, 'news'), orderBy('date', 'desc'), limit(3));
+                const snapshot = await getDocs(q);
+                const recentNews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                recentNews.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'news-card';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    card.style.transition = `all 0.6s ease-out ${index * 0.1}s`;
+
+                    card.innerHTML = `
+                        <img src="${item.poster}" alt="${item.name}" loading="lazy">
+                        <div class="card-content">
+                            <span class="category-tag" style="color: var(--primary-color); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 0.5rem;">${item.category}</span>
+                            <h3>${item.name}</h3>
+                            <a href="news-detail.html?news=${item.slug}" class="card-link">อ่านต่อ</a>
+                        </div>
+                    `;
+                    newsContainer.appendChild(card);
+                    observer.observe(card);
+                });
+            } catch (error) {
+                console.error('Error loading news:', error);
+                newsContainer.innerHTML = '<p style="color: red; grid-column: 1/-1; text-align: center;">ไม่สามารถโหลดข่าวได้</p>';
+            }
+        }
+
+        // Scroll reveal animation observer
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        loadNews();
+
+        // Hero Slider Logic
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const navItems = document.querySelectorAll('.nav-item');
+        const progressBar = document.getElementById('progress-bar');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            navItems[index].classList.add('active');
+            currentSlideIndex = index;
+            
+            // Reset progress bar animation
+            progressBar.style.animation = 'none';
+            progressBar.offsetHeight; // trigger reflow
+            progressBar.style.animation = 'sliderProgress 5s linear forwards';
+            
+            // Move progress bar to correct position
+            const percent = (index / slides.length) * 100;
+            progressBar.style.left = `${percent}%`;
+            progressBar.style.width = `${100 / slides.length}%`;
+        }
+
+        function nextSlide() {
+            let nextIndex = (currentSlideIndex + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+
+        function prevSlide() {
+            let prevIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+            showSlide(prevIndex);
+        }
+
+        function currentSlide(index) {
+            showSlide(index);
+            resetTimer();
+        }
+
+        let sliderTimer = setInterval(nextSlide, 5000);
+
+        function resetTimer() {
+            clearInterval(sliderTimer);
+            sliderTimer = setInterval(nextSlide, 5000);
+        }
+
+        // Initialize progress bar width
+        progressBar.style.width = `${100 / slides.length}%`;
+    </script>
+</body>
+</html>

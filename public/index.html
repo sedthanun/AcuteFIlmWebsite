@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AcuteFilm</title>
   <link rel="stylesheet" href="navbar.css">
-  <link rel="stylesheet" href="fontface.css">
+  <!--<link rel="stylesheet" href="fontface.css">!-->
+  <link rel="stylesheet" href="style-v1.css">
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -17,55 +18,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <style>
-
-   
-    html,body{
-      min-height: 100vh;
-      font-size: 1rem;
-    }
-    .navbar-nav li{
-      font-size: 1.5rem;
-      font-family: "sukhumvit_setbold", sans-serif;
-
-    }
-  
-    .card-img-top {
-      width: 100%;
-      height: 20vh;
-      object-fit: cover;
-    }
-
-    .jumbotron {
+   .jumbotron {
       color: white;
       background-image: url(img/hero-thefame.png);
-      background-position: 50%;
+      background-position: auto;
       background-repeat: no-repeat;
       background-size: cover;
-      height: calc(100vh - 300px);
-    
-      
+      height: 100%;   
     }
 
-    body {
-      font-family: "sukhumvit_settext", sans-serif;
-      
+    @media screen and (min-width: 992px) {
+    html,body{
+      font-size: 0.8vw;
     }
-    footer {
-      position: sticky;
-      top:100%;
-      background-color: #f2f2f2;
-      padding: 25px;
-      clear: both;
-    }
-
-    @media screen and (max-width: 992px) {
     .jumbotron{
-      width: 100%;
-      height: 100vh;
-      
+      height: 45vh;
       
     }
   }
+
+  @media screen and (max-width: 480px) {
+      .container h2{
+        font-size: 20px;
+      }
+      .jumbotron h1{
+        font-size: 20px;
+      }
+    }
+
   </style>
 </head>
 </head>
@@ -89,7 +69,7 @@
                 <a class="nav-link" href="/movie">ภาพยนตร์</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">ติดต่อเรา</a>
+              <a class="nav-link" href="/about-us">ติดต่อเรา</a>
           </li>
               
           </ul>
@@ -98,11 +78,14 @@
   </nav>
 
  
-  <section class="jumbotron">
-    <h1>The Fame</h1>
-    <p class="lead">ภาพยนตร์ใหม่ล่าสุด</p>
-    <p><a href="thefame.html" class="btn btn-primary btn-lg">เพิ่มเติม </a></p>
-  </section>
+  <div class="container-fluid" style="padding: 0!important;">
+    <section class="jumbotron">
+      <h1>The Fame</h1>
+      <p class="lead">ภาพยนตร์ใหม่ล่าสุด</p>
+      <p><a href="/movie/The-Fame?v=2" class="btn btn-primary btn-lg">เพิ่มเติม </a></p>
+    </section>
+  </div>
+
   <div class="container">
     <h2 class="text-center">Our News</h2>
     <hr class="w-70">
@@ -135,29 +118,33 @@
 	$('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
 });
 
-    function showMovie(list) {
-      console.log(list.movies.items);
-      for (var i = 0; i < list.movies.items.length; i++) {
-        let movies_elm = document.getElementById("show");
-        var movie = list.movies.items[i];
 
-        movies_elm.innerHTML +=
+
+   function showNews(list) {
+      console.log(list.news.items);
+      for (var i = 0; i < list.news.items.length; i++) {
+        let new_elm = document.getElementById("show");
+        var newl = list.news.items[i];
+
+          new_elm.innerHTML +=
           `<div class="col-lg-5 col-md-6 mt-3">
       <div class="card rounded shadow">
-        <img class="card-img-top p-0" src="${movie.poster}" loading="lazy"/>
+        <img class="card-img-top p-0" src="${newl.poster}" loading="lazy"/>
         <div class="card-body">
           <h5>
-            <a href="#">${ movie.name}</a>
+            <a href="news-detail.html?news=${newl.slug}">${newl.name}</a>
             
           </h5>
-          <a href="#" class="disabled">News</a>
+          <a href="news-detail.html?news=${newl.slug}" class="disabled">News</a>
         </div>
         </div>
         </div>   
      `
       }
     }
-    jQuery.getJSON("news.json", showMovie)
+    jQuery.getJSON("/news.json", showNews)
+    //jQuery.getJSON("/news.json")
+    //console.log(news.items);
   </script>
 
 

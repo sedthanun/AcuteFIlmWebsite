@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcuteFilm Admin Dashboard</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a0a0a; color: white; padding: 2rem; max-width: 1000px; margin: 0 auto; line-height: 1.6; }
+        h1 { color: #00d2ff; text-align: center; margin-bottom: 2rem; }
+        
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #333; padding-bottom: 1rem; }
+        .tab-btn { background: none; border: none; color: #aaa; font-size: 1.2rem; cursor: pointer; padding: 0.5rem 1rem; font-weight: bold; border-radius: 8px; transition: 0.3s; }
+        .tab-btn.active { background: rgba(0, 210, 255, 0.1); color: #00d2ff; }
+        .tab-btn:hover { color: white; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .card { background: #1a1a1a; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #333; }
+        .card h2 { margin-top: 0; margin-bottom: 1.5rem; font-size: 1.3rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: #ccc; }
+        input, textarea, select { width: 100%; padding: 10px; background: #0f0f0f; border: 1px solid #333; color: white; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
+        input:focus, textarea:focus { outline: none; border-color: #00d2ff; }
+        textarea { resize: vertical; min-height: 100px; }
+        
+        .btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; width: 100%; margin-top: 1rem; }
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { background: #555; cursor: not-allowed; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
+        th { color: #888; font-weight: normal; font-size: 0.9rem; }
+        td { font-size: 0.95rem; }
+        .btn-delete { background: #ff4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .btn-delete:hover { background: #cc0000; }
+        
+        .img-preview { max-width: 50px; border-radius: 4px; }
+        .status { margin-top: 1rem; padding: 10px; border-radius: 8px; display: none; text-align: center; }
+        .status.success { background: rgba(0, 255, 0, 0.1); color: #00ff00; border: 1px solid #00ff00; display: block; }
+        .status.error { background: rgba(255, 0, 0, 0.1); color: #ff5555; border: 1px solid #ff5555; display: block; }
+    </style>
+</head>
+<body>
+
+    <h1>AcuteFilm Admin Dashboard</h1>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('movies')">🎬 ภาพยนตร์</button>
+        <button class="tab-btn" onclick="switchTab('news')">📰 ข่าวสาร</button>
+    </div>
+
+    <div id="status-message" class="status"></div>
+
+    <!-- MOVIES SECTION -->
+    <div id="tab-movies" class="tab-content active">
+        <div class="card">
+            <h2>เพิ่มภาพยนตร์ใหม่</h2>
+            <form id="form-movie">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group"><label>ชื่อภาพยนตร์ (Name)</label><input type="text" id="m_name" required></div>
+                    <div class="form-group"><label>Slug (URL ภาษาอังกฤษ เช่น my-movie)</label><input type="text" id="m_slug" required></div>
+                    <div class="form-group"><label>หมวดหมู่ (Genre)</label><input type="text" id="m_genre" required></div>
+                    <div class="form-group"><label>ปีที่ฉาย (Release Year)</label><input type="text" id="m_release" required></div>
+                    <div class="form-group"><label>ภาพโปสเตอร์ (เช่น img/poster.jpg)</label><input type="text" id="m_poster" value="img/" required></div>
+                    <div class="form-group"><label>ภาพปกแบนเนอร์ (เช่น img/hero.jpg)</label><input type="text" id="m_hero" value="img/" required></div>
+                    <div class="form-group"><label>นักแสดง (Actors)</label><input type="text" id="m_actors" required></div>
+                    <div class="form-group"><label>วิดีโอตัวอย่าง (YouTube Embed URL)</label><input type="text" id="m_video" required></div>
+                </div>
+                <div class="form-group">
+                    <label>เรื่องย่อ (Synopsis)</label>
+                    <textarea id="m_synopsis" required></textarea>
+                </div>
+                <button type="submit" class="btn" id="btn-submit-movie">บันทึกภาพยนตร์</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>รายการภาพยนตร์ปัจจุบัน</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>รูป</th>
+                        <th>ชื่อภาพยนตร์</th>
+                        <th>หมวดหมู่</th>
+                        <th>ปี</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody id="movie-table-body">
+                    <tr><td colspan="5" style="text-align: center;">กำลังโหลดข้อมูล...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- NEWS SECTION -->
+    <div id="tab-news" class="tab-content">
+        <div class="card">
+            <h2>เพิ่มข่าวสารใหม่</h2>
+            <form id="form-news">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group"><label>หัวข้อข่าว (Name)</label><input type="text" id="n_name" required></div>
+                    <div class="form-group"><label>Slug (URL ภาษาอังกฤษ เช่น news-4)</label><input type="text" id="n_slug" required></div>
+                    <div class="form-group"><label>หมวดหมู่ (Category)</label><input type="text" id="n_category" value="ข่าวสาร" required></div>
+                    <div class="form-group"><label>วันที่เผยแพร่ (Date)</label><input type="text" id="n_date" required></div>
+                    <div class="form-group" style="grid-column: 1 / -1;"><label>ภาพประกอบ (เช่น img/news1.jpg)</label><input type="text" id="n_poster" value="img/" required></div>
+                </div>
+                <div class="form-group">
+                    <label>เนื้อหาข่าว (Content - สามารถใส่ HTML ได้ เช่น &lt;b&gt;, &lt;br&gt;)</label>
+                    <textarea id="n_content" required></textarea>
+                </div>
+                <button type="submit" class="btn" id="btn-submit-news">บันทึกข่าวสาร</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>รายการข่าวสารปัจจุบัน</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>รูป</th>
+                        <th>หัวข้อข่าว</th>
+                        <th>วันที่</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody id="news-table-body">
+                    <tr><td colspan="4" style="text-align: center;">กำลังโหลดข้อมูล...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module">
+        import { db } from './firebase-config.js';
+        import { collection, addDoc, getDocs, doc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        // UI Management
+        window.switchTab = function(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+        };
+
+        const showMessage = (msg, type = 'success') => {
+            const el = document.getElementById('status-message');
+            el.innerText = msg;
+            el.className = `status ${type}`;
+            setTimeout(() => { el.style.display = 'none'; }, 3000);
+        };
+
+        // --- MOVIES LOGIC ---
+        const loadMovies = async () => {
+            const tbody = document.getElementById('movie-table-body');
+            try {
+                const q = query(collection(db, 'movies'), orderBy('release', 'desc'));
+                const snapshot = await getDocs(q);
+                tbody.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><img src="${data.poster}" class="img-preview" onerror="this.src='https://via.placeholder.com/50'"></td>
+                            <td>${data.name}<br><small style="color:#888">${data.slug}</small></td>
+                            <td>${data.genre}</td>
+                            <td>${data.release}</td>
+                            <td><button class="btn-delete" onclick="deleteItem('movies', '${doc.id}')">ลบ</button></td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color:red; text-align:center;">Error: ${error.message}</td></tr>`;
+            }
+        };
+
+        document.getElementById('form-movie').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-movie');
+            btn.disabled = true;
+            btn.innerText = 'กำลังบันทึก...';
+
+            const newMovie = {
+                name: document.getElementById('m_name').value,
+                slug: document.getElementById('m_slug').value,
+                genre: document.getElementById('m_genre').value,
+                release: document.getElementById('m_release').value,
+                poster: document.getElementById('m_poster').value,
+                hero: document.getElementById('m_hero').value,
+                actors: document.getElementById('m_actors').value,
+                video: document.getElementById('m_video').value,
+                synopsis: document.getElementById('m_synopsis').value
+            };
+
+            try {
+                await addDoc(collection(db, 'movies'), newMovie);
+                showMessage('✅ เพิ่มภาพยนตร์สำเร็จ!');
+                document.getElementById('form-movie').reset();
+                document.getElementById('m_poster').value = 'img/';
+                document.getElementById('m_hero').value = 'img/';
+                loadMovies();
+            } catch (error) {
+                showMessage(`❌ เกิดข้อผิดพลาด: ${error.message}`, 'error');
+            }
+            btn.disabled = false;
+            btn.innerText = 'บันทึกภาพยนตร์';
+        });
+
+        // --- NEWS LOGIC ---
+        const loadNews = async () => {
+            const tbody = document.getElementById('news-table-body');
+            try {
+                const q = query(collection(db, 'news'), orderBy('date', 'desc'));
+                const snapshot = await getDocs(q);
+                tbody.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><img src="${data.poster}" class="img-preview" onerror="this.src='https://via.placeholder.com/50'"></td>
+                            <td>${data.name}<br><small style="color:#888">${data.slug}</small></td>
+                            <td>${data.date}</td>
+                            <td><button class="btn-delete" onclick="deleteItem('news', '${doc.id}')">ลบ</button></td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color:red; text-align:center;">Error: ${error.message}</td></tr>`;
+            }
+        };
+
+        document.getElementById('form-news').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-news');
+            btn.disabled = true;
+            btn.innerText = 'กำลังบันทึก...';
+
+            const newNews = {
+                name: document.getElementById('n_name').value,
+                slug: document.getElementById('n_slug').value,
+                category: document.getElementById('n_category').value,
+                date: document.getElementById('n_date').value,
+                poster: document.getElementById('n_poster').value,
+                content: document.getElementById('n_content').value
+            };
+
+            try {
+                await addDoc(collection(db, 'news'), newNews);
+                showMessage('✅ เพิ่มข่าวสารสำเร็จ!');
+                document.getElementById('form-news').reset();
+                document.getElementById('n_poster').value = 'img/';
+                loadNews();
+            } catch (error) {
+                showMessage(`❌ เกิดข้อผิดพลาด: ${error.message}`, 'error');
+            }
+            btn.disabled = false;
+            btn.innerText = 'บันทึกข่าวสาร';
+        });
+
+        // --- GLOBAL DELETE LOGIC ---
+        window.deleteItem = async (collectionName, id) => {
+            if (confirm('คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้? (ไม่สามารถกู้คืนได้)')) {
+                try {
+                    await deleteDoc(doc(db, collectionName, id));
+                    showMessage('🗑️ ลบรายการสำเร็จ!');
+                    if (collectionName === 'movies') loadMovies();
+                    else loadNews();
+                } catch (error) {
+                    showMessage(`❌ ลบไม่สำเร็จ: ${error.message}`, 'error');
+                }
+            }
+        };
+
+        // Initialize lists on load
+        loadMovies();
+        loadNews();
+    </script>
+</body>
+</html>

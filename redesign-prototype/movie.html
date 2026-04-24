@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies | AcuteFilm</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js">
+    <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js">
+    <script src="https://kit.fontawesome.com/6719d38d22.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a class="navbar-brand" href="index.html">
+            <img src="img/logo-new.png" alt="AcuteFilm Logo">
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="movie.html" class="active">ภาพยนตร์</a></li>
+            <li><a href="news.html">ข่าวสาร</a></li>
+            <li><a href="about-us.html">ติดต่อเรา</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="hero" style="height: 50vh;">
+        <img src="img/lights.jpg" alt="Movie Hero" class="hero-bg" style="object-position: center 20%;">
+        <div class="hero-overlay" style="background: linear-gradient(to bottom, transparent, var(--bg-color));"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>ภาพยนตร์</h1>
+                <p>หนังสั้นผลิตโดย Acutefilm </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="movie-grid" id="movie-container">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/sedthanun/AcuteFIlmWebsite/"><i class="fab fa-github"></i></a>
+            <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p class="copyright">All rights reserved. AcuteDM 2025-2026</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script type="module">
+        // Scroll to top functionality
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        // Navbar and Scroll to top effect
+        window.onscroll = function() {
+            const nav = document.getElementById('navbar');
+            if (window.pageYOffset > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        };
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileToggle.addEventListener('click', () => {
+            mobileToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Fetch Movie Data from Firestore
+        import { db } from './firebase-config.js';
+        import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        async function loadMovies() {
+            try {
+                const q = query(collection(db, 'movies'), orderBy('release', 'desc'));
+                const snapshot = await getDocs(q);
+                const movieContainer = document.getElementById('movie-container');
+                
+                movieContainer.innerHTML = '';
+                snapshot.docs.forEach(doc => {
+                    const item = { id: doc.id, ...doc.data() };
+                    const card = document.createElement('div');
+                    card.className = 'movie-card';
+                    card.innerHTML = `
+                        <img src="${item.poster}" alt="${item.name}" loading="lazy">
+                        <div class="card-content">
+                            <h3>${item.name}</h3>
+                            <p style="color: var(--primary-color); font-size: 0.8rem; margin-bottom: 0.8rem;">${item.genre}</p>
+                            <a href="movie-detail.html?v=${item.slug}" class="card-link" style="font-size: 0.9rem;">ดูเพิ่มเติม</a>
+                        </div>
+                    `;
+                    movieContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading movies:', error);
+                document.getElementById('movie-container').innerHTML = '<p style="color: red; grid-column: 1/-1; text-align: center;">ไม่สามารถโหลดข้อมูลหนังได้</p>';
+            }
+        }
+
+        loadMovies();
+    </script>
+</body>
+</html>

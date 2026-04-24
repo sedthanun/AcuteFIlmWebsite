@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | AcuteFilm</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/6719d38d22.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a class="navbar-brand" href="index.html">
+            <img src="img/logo-new.png" alt="AcuteFilm Logo">
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="movie.html">ภาพยนตร์</a></li>
+            <li><a href="news.html">ข่าวสาร</a></li>
+            <li><a href="about-us.html" class="active">ติดต่อเรา</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="hero" style="height: 40vh;">
+        <div class="hero-overlay" style="background: linear-gradient(to bottom, transparent, var(--bg-color));"></div>
+        <div class="hero-content">
+            <h1>ติดต่อเรา</h1>
+            <p>ร่วมงานกับเราเพื่อสร้างสรรค์ผลงานภาพยนตร์คุณภาพเยี่ยม</p>
+        </div>
+    </section>
+
+    <section class="news-section about-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="glass about-card">
+                <div class="about-grid">
+                    <div class="contact-info">
+                        <h2 style="margin-bottom: 2rem; font-weight: 700;">Contact Details</h2>
+                        <div style="margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--primary-color); margin-bottom: 0.5rem;">AcuteFilm Production</h5>
+                            <p style="font-size: 1.1rem;">Email: acutefilmofficial@gmail.com</p>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--primary-color); margin-bottom: 0.5rem;">Location</h5>
+                            <p style="font-size: 1.1rem;">Bangkok, Thailand</p>
+                        </div>
+                        <div>
+                            <h5 style="color: var(--primary-color); margin-bottom: 0.5rem;">LINE ID</h5>
+                            <p style="font-size: 1.1rem;">0910158552</p>
+                        </div>
+                    </div>
+                    <div class="founder-info" style="text-align: center;">
+                        <h5 style="margin-bottom: 1.5rem; font-weight: 600;">CEO & Founder</h5>
+                        <div class="founder-img-wrapper">
+                            <img src="img/big.jpg" alt="Sedthanun Chongchetdee" class="founder-img">
+                        </div>
+                        <p style="font-size: 1.2rem; font-weight: 700;">Sedthanun Chongchetdee</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/sedthanun/AcuteFIlmWebsite/"><i class="fab fa-github"></i></a>
+            <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p class="copyright">All rights reserved. AcuteDM 2025-2026</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script>
+        // Scroll to top functionality
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        // Navbar and Scroll to top effect
+        window.onscroll = function() {
+            const nav = document.getElementById('navbar');
+            if (window.pageYOffset > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        };
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileToggle.addEventListener('click', () => {
+            mobileToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+</body>
+</html>

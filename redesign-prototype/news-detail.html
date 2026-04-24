@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Detail | AcuteFilm</title>
+    <meta name="description" content="อ่านข่าวสารล่าสุดจาก AcuteFilm">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/6719d38d22.js" crossorigin="anonymous"></script>
+    <style>
+        .news-detail-header {
+            margin-bottom: 2rem;
+        }
+
+        .news-category-badge {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 50%, #00d2ff 100%);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .news-detail-title {
+            font-size: clamp(1.6rem, 5vw, 3rem);
+            line-height: 1.2;
+            color: var(--text-main);
+        }
+
+        .news-detail-card {
+            padding: clamp(1.2rem, 4vw, 2.5rem);
+            border-radius: 32px;
+            overflow: hidden;
+        }
+
+        .news-featured-img {
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 0;
+            margin: 0 auto 2rem auto;
+            box-shadow: none;
+            display: block;
+        }
+
+        .news-body {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            line-height: 1.9;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+        }
+
+        .news-footer-bar {
+            border-top: 1px solid var(--surface-border);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .news-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .share-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .share-links a {
+            color: var(--text-main);
+            opacity: 0.6;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .share-links a:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .news-detail-header {
+                margin-bottom: 1rem;
+            }
+            .news-detail-title {
+                margin-bottom: 0;
+            }
+            .news-featured-img {
+                width: 100vw;
+                max-width: 100vw;
+                margin-left: calc(50% - 50vw);
+                margin-right: calc(50% - 50vw);
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a class="navbar-brand" href="index.html">
+            <img src="img/logo-new.png" alt="AcuteFilm Logo">
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="movie.html">ภาพยนตร์</a></li>
+            <li><a href="news.html" class="active">ข่าวสาร</a></li>
+            <li><a href="about-us.html">ติดต่อเรา</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="news-section news-detail-section">
+        <div class="container">
+            <div class="news-detail-header">
+                <span id="news-category-badge" class="news-category-badge"></span>
+                <h1 id="news-title-hero" class="news-detail-title"></h1>
+            </div>
+
+            <img id="news-featured-img" src="" alt="" class="news-featured-img">
+
+            <div class="glass news-detail-card">
+                <div id="news-content" class="news-body">
+                    <!-- Story content will be loaded here -->
+                </div>
+
+                <div class="news-footer-bar">
+                    <div id="news-date" class="news-date"></div>
+                    <div class="share-links">
+                        <a id="fb-share" href="#" target="_blank"><i class="fab fa-facebook fa-xl"></i></a>
+                        <a id="tw-share" href="#" target="_blank"><i class="fab fa-twitter fa-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/sedthanun/AcuteFIlmWebsite/"><i class="fab fa-github"></i></a>
+            <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p class="copyright">All rights reserved. AcuteDM 2025-2026</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script type="module">
+        // Scroll to top functionality
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        // Navbar and Scroll to top effect
+        window.onscroll = function() {
+            const nav = document.getElementById('navbar');
+            if (window.pageYOffset > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        };
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navLinks = document.getElementById('nav-links');
+        mobileToggle.addEventListener('click', () => {
+            mobileToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Fetch News Detail from Firestore
+        import { db } from './firebase-config.js';
+        import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        async function initNewsDetail() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const slug = params.get('news');
+
+                const q = query(collection(db, 'news'), where('slug', '==', slug));
+                const snapshot = await getDocs(q);
+
+                let news;
+                if (!snapshot.empty) {
+                    news = { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
+                } else {
+                    const fallback = await getDocs(collection(db, 'news'));
+                    news = { id: fallback.docs[0].id, ...fallback.docs[0].data() };
+                }
+
+                displayNewsDetails(news);
+            } catch (error) {
+                console.error('Error loading news details:', error);
+            }
+        }
+
+        function displayNewsDetails(news) {
+            document.title = `${news.name} | AcuteFilm News`;
+            document.getElementById('news-featured-img').src = news.poster;
+            document.getElementById('news-featured-img').alt = news.name;
+            document.getElementById('news-title-hero').innerText = news.name;
+            document.getElementById('news-category-badge').innerText = news.category;
+            document.getElementById('news-content').innerHTML = news.content || news.story;
+            document.getElementById('news-date').innerText = `เผยแพร่เมื่อ: ${news.date}`;
+
+            const currentURL = encodeURIComponent(window.location.href);
+            document.getElementById('fb-share').href = `https://www.facebook.com/sharer/sharer.php?u=${currentURL}`;
+            document.getElementById('tw-share').href = `https://twitter.com/intent/tweet?url=${currentURL}&text=${news.name}`;
+        }
+
+        initNewsDetail();
+    </script>
+</body>
+</html>

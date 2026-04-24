@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "acutefilmmovies"
-  }
+  },
+  "targets": {
+    "acutefilmmovies": {
+      "hosting": {
+        "redesign": [
+          "acutefilmmovies-v2"
+        ],
+        "main": [
+          "acutefilmmovies"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

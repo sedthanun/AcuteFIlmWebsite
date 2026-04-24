@@ -1,15 +1,54 @@
 {
-  "hosting": {
-    "public": "public",
-    "rewrites": [
-      {
-        "source": "/index",
-        "destination": "/index.html"
-      },
-      {
-        "source": "/movie",
-        "destination": "/movie.html"
-      }
-    ]
-  }
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "hosting": [
+    {
+      "target": "main",
+      "public": "public",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "cleanUrls": false,
+      "headers": [
+        {
+          "source": "**/*",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+            }
+          ]
+        }
+      ],
+      "rewrites": [
+        { "source": "/", "destination": "/index.html" },
+        { "source": "/index", "destination": "/index.html" },
+        { "source": "/movie", "destination": "/movie.html" },
+        { "source": "/about-us", "destination": "/about-us.html" },
+        { "source": "/movie/**", "destination": "/movie-detail.html" }
+      ]
+    },
+    {
+      "target": "redesign",
+      "public": "redesign-prototype",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "admin.html"],
+      "cleanUrls": false,
+      "headers": [
+        {
+          "source": "**/*",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+            }
+          ]
+        }
+      ],
+      "rewrites": [
+        { "source": "/", "destination": "/index.html" },
+        { "source": "/movie", "destination": "/movie.html" },
+        { "source": "/news", "destination": "/news.html" },
+        { "source": "/about-us", "destination": "/about-us.html" }
+      ]
+    }
+  ]
 }
