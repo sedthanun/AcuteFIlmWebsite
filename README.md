@@ -21,7 +21,7 @@
 - **Security:** อัปเดต Security Rules สำหรับ Firestore
 
 ### [v2.5] - 2025
-- **Dynamic Linking:** ปรับปรุงระบบการดึงข้อแบบ dynamic ผ่าน movie-detail และ news-detail
+- **Dynamic Linking:** ปรับปรุงระบบการดึงข้อมูลแบบ dynamic ผ่าน movie-detail และ news-detail
 
 ### [v2.0] - 2024
 - **Share System:** เพิ่มปุ่มแชร์ไปยัง Social Media
