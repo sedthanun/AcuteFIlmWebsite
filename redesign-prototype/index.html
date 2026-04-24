@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AcuteFilm | Short Films & Productions</title>
+    <title>AcuteFilm | Media Production</title>
     <link rel="stylesheet" href="style.css">
     <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js">
     <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js">
@@ -17,7 +17,13 @@
         </a>
         <ul class="nav-links" id="nav-links">
             <li><a href="index.html" class="active">หน้าแรก</a></li>
-            <li><a href="movie.html">ภาพยนตร์</a></li>
+            <li class="dropdown">
+                <a href="#">ผลงาน <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 0.3rem;"></i></a>
+                <div class="dropdown-content">
+                    <a href="movie.html">ภาพยนตร์</a>
+                    <a href="services.html">ลูกค้าของเรา</a>
+                </div>
+            </li>
             <li><a href="news.html">ข่าวสาร</a></li>
             <li><a href="about-us.html">ติดต่อเรา</a></li>
         </ul>
@@ -34,28 +40,31 @@
             <img src="img/hero-thefame.png" alt="The Fame" class="hero-bg">
             <div class="hero-overlay"></div>
             <div class="hero-content">
+                <div class="originals-tag" style="color: var(--primary-color); font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem; letter-spacing: 2px;">AcuteFilm Originals</div>
                 <h1>The Fame</h1>
                 <p>ชื่อเสีย(ง)</p>
                 <a href="movie-detail.html?v=The-Fame" class="btn-primary">ดูเพิ่มเติม</a>
             </div>
         </div>
 
-        <!-- Slide 2: Your Choice -->
+        <!-- Slide 2: Bystander -->
         <div class="slide">
-            <img src="img/Your Choice.webp" alt="Your Choice" class="hero-bg">
+            <img src="img/bystander-hero.webp" alt="Bystander" class="hero-bg">
             <div class="hero-overlay"></div>
             <div class="hero-content">
-                <h1>Your Choice</h1>
-                <p>คนที่รัก ไม่รักเรา</p>
-                <a href="movie-detail.html?v=Your-Choice" class="btn-primary">ดูเพิ่มเติม</a>
+                <div class="originals-tag" style="color: #ffb400; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem; letter-spacing: 2px;">VFX by AcuteFilm</div>
+                <h1>Bystander</h1>
+                <p>คืนหวาดระแวง</p>
+                <a href="movie-detail.html?v=bystander" class="btn-primary">ดูเพิ่มเติม</a>
             </div>
         </div>
 
         <!-- Slide 3: Good Old Friend -->
         <div class="slide">
-            <img src="img/gof.jpg" alt="Good Old Friend" class="hero-bg">
+            <img src="img/gof.jpg" alt="Good Old Friend" class="hero-bg gof-bg">
             <div class="hero-overlay"></div>
             <div class="hero-content">
+                <div class="originals-tag" style="color: var(--primary-color); font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem; letter-spacing: 2px;">AcuteFilm Originals</div>
                 <h1>Good Old Friend</h1>
                 <p>มิตรภาพที่ไม่มีวันเลือนลาง แม้กาลเวลาจะผ่านไปนานแค่ไหนก็ตาม</p>
                 <a href="movie-detail.html?v=Good-Old-Friend" class="btn-primary">ดูเพิ่มเติม</a>
@@ -75,7 +84,7 @@
                         <span class="title">The Fame</span>
                     </div>
                     <div class="nav-item" onclick="currentSlide(1)">
-                        <span class="title">Your Choice</span>
+                        <span class="title">Bystander</span>
                     </div>
                     <div class="nav-item" onclick="currentSlide(2)">
                         <span class="title">Good Old Friend</span>
@@ -83,7 +92,7 @@
                 </div>
 
                 <div class="nav-controls">
-                    <button class="nav-btn" id="pause-btn"><i class="fas fa-pause"></i></button>
+                    <button class="nav-btn" onclick="toggleSlide()" id="pause-btn"><i class="fas fa-pause"></i></button>
                 </div>
 
                 <div class="pill-progress-track">
@@ -92,6 +101,15 @@
             </div>
         </div>
     </section>
+
+    <section class="what-we-do">
+    <div class="container">
+        <h2 class="section-title">What we do?</h2>
+        <div class="typing-container">
+            <span id="typing-text" class="fade-animation">Video Production</span>
+        </div>
+    </div>
+</section>
 
     <section class="news-section animate-on-scroll">
         <div class="container">
@@ -111,7 +129,7 @@
             <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
             <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
         </div>
-        <p class="copyright">All rights reserved. AcuteDM 2025-2026</p>
+        <p class="copyright">All rights reserved. JJDS 2026</p>
     </footer>
 
     <!-- Scroll to Top Button -->
@@ -156,12 +174,40 @@
 
         // Close menu when clicking a link
         document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileToggle.classList.remove('active');
-                navLinks.classList.remove('active');
-                document.body.style.overflow = 'auto';
+            link.addEventListener('click', (e) => {
+                const isDropdown = link.parentElement.classList.contains('dropdown');
+                if (window.innerWidth <= 768 && isDropdown) {
+                    e.preventDefault();
+                    link.parentElement.classList.toggle('active');
+                } else {
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
             });
         });
+
+        //What we do
+        const words = ["Video Production","Video Editing","Visual Effects", "Motion Graphics","Color Grading"]
+        let wordIndex = 0;
+        const textElement = document.getElementById('typing-text');
+
+        function changeWord(){
+            // 1. เริ่มจางหาย
+            textElement.classList.add('fade-out');
+            // 2. เปลี่ยนคำหลังจากที่จางหายไปแล้ว (0.5 วินาที ตาม CSS transition)
+            setTimeout(() => {
+                wordIndex = (wordIndex +1) % words.length;
+                textElement.textContent = words[wordIndex];
+            // 3. ปรากฏขึ้นมาใหม่
+            textElement.classList.remove('fade-out');
+            }, 500);
+
+        }
+
+        setInterval(changeWord, 3000);
+
+        
 
         // Fetch News Data from Firestore
         import { db } from './firebase-config.js';
@@ -170,11 +216,19 @@
         const newsContainer = document.getElementById('news-container');
 
         async function loadNews() {
+            // Add loading spinner
+            newsContainer.innerHTML = `
+                <div class="loading-spinner-container" style="grid-column: 1 / -1; padding: 3rem 0;">
+                    <div class="spinner" style="width: 40px; height: 40px;"></div>
+                </div>
+            `;
+
             try {
                 const q = query(collection(db, 'news'), orderBy('date', 'desc'), limit(3));
                 const snapshot = await getDocs(q);
                 const recentNews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
+                newsContainer.innerHTML = ''; // Clear spinner
                 recentNews.forEach((item, index) => {
                     const card = document.createElement('div');
                     card.className = 'news-card';
@@ -217,9 +271,11 @@
 
         // Hero Slider Logic
         let currentSlideIndex = 0;
+        let isPaused = false;
         const slides = document.querySelectorAll('.slide');
         const navItems = document.querySelectorAll('.nav-item');
         const progressBar = document.getElementById('progress-bar');
+        const pauseBtn = document.getElementById('pause-btn');
 
         function showSlide(index) {
             slides.forEach(slide => slide.classList.remove('active'));
@@ -232,7 +288,9 @@
             // Reset progress bar animation
             progressBar.style.animation = 'none';
             progressBar.offsetHeight; // trigger reflow
-            progressBar.style.animation = 'sliderProgress 5s linear forwards';
+            if (!isPaused) {
+                progressBar.style.animation = 'sliderProgress 5s linear forwards';
+            }
             
             // Move progress bar to correct position
             const percent = (index / slides.length) * 100;
@@ -240,26 +298,43 @@
             progressBar.style.width = `${100 / slides.length}%`;
         }
 
-        function nextSlide() {
+        window.nextSlide = function() {
             let nextIndex = (currentSlideIndex + 1) % slides.length;
             showSlide(nextIndex);
+            if (!isPaused) resetTimer();
         }
 
-        function prevSlide() {
+        window.prevSlide = function() {
             let prevIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
             showSlide(prevIndex);
+            if (!isPaused) resetTimer();
         }
 
-        function currentSlide(index) {
+        window.currentSlide = function(index) {
             showSlide(index);
-            resetTimer();
+            if (!isPaused) resetTimer();
+        }
+
+        window.toggleSlide = function() {
+            isPaused = !isPaused;
+            if (isPaused) {
+                clearInterval(sliderTimer);
+                progressBar.style.animationPlayState = 'paused';
+                pauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                progressBar.style.animationPlayState = 'running';
+                pauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                resetTimer();
+            }
         }
 
         let sliderTimer = setInterval(nextSlide, 5000);
 
         function resetTimer() {
             clearInterval(sliderTimer);
-            sliderTimer = setInterval(nextSlide, 5000);
+            if (!isPaused) {
+                sliderTimer = setInterval(nextSlide, 5000);
+            }
         }
 
         // Initialize progress bar width

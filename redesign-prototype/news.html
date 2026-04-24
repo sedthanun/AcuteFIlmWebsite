@@ -11,13 +11,23 @@
 </head>
 <body>
 
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
     <nav class="navbar" id="navbar">
         <a class="navbar-brand" href="index.html">
             <img src="img/logo-new.png" alt="AcuteFilm Logo">
         </a>
         <ul class="nav-links" id="nav-links">
             <li><a href="index.html">หน้าแรก</a></li>
-            <li><a href="movie.html">ภาพยนตร์</a></li>
+            <li class="dropdown">
+                <a href="#">ผลงาน <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 0.3rem;"></i></a>
+                <div class="dropdown-content">
+                    <a href="movie.html">ภาพยนตร์</a>
+                    <a href="services.html">ลูกค้าของเรา</a>
+                </div>
+            </li>
             <li><a href="news.html" class="active">ข่าวสาร</a></li>
             <li><a href="about-us.html">ติดต่อเรา</a></li>
         </ul>
@@ -52,7 +62,7 @@
             <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
             <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
         </div>
-        <p class="copyright">All rights reserved. AcuteDM 2025-2026</p>
+        <p class="copyright">All rights reserved. JJDS 2026</p>
     </footer>
 
     <!-- Scroll to Top Button -->
@@ -90,6 +100,22 @@
         mobileToggle.addEventListener('click', () => {
             mobileToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const isDropdown = link.parentElement.classList.contains('dropdown');
+                if (window.innerWidth <= 768 && isDropdown) {
+                    e.preventDefault();
+                    link.parentElement.classList.toggle('active');
+                } else {
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
         });
 
         // Fetch News Data from Firestore
@@ -115,6 +141,13 @@
                         </div>
                     </div>
                 `}).join('');
+
+                // Hide loading overlay
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) {
+                    overlay.classList.add('hidden');
+                    setTimeout(() => overlay.remove(), 500);
+                }
             } catch (error) {
                 console.error('Error loading news:', error);
                 document.getElementById('news-all-container').innerHTML = '<p style="color: red; text-align: center;">ไม่สามารถโหลดข่าวได้</p>';

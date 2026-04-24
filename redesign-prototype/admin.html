@@ -33,8 +33,10 @@
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
         th { color: #888; font-weight: normal; font-size: 0.9rem; }
         td { font-size: 0.95rem; }
-        .btn-delete { background: #ff4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
-        .btn-delete:hover { background: #cc0000; }
+        .btn-edit { background: #00d2ff; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; margin-right: 5px; }
+        .btn-delete { background: #ff0040; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; margin-right: 5px; }
+        .btn-edit:hover { background: #00b0ff; }
+        .btn-cancel { background: #555; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; width: 100%; margin-top: 0.5rem; display: none; }
         
         .img-preview { max-width: 50px; border-radius: 4px; }
         .status { margin-top: 1rem; padding: 10px; border-radius: 8px; display: none; text-align: center; }
@@ -49,6 +51,9 @@
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('movies')">🎬 ภาพยนตร์</button>
         <button class="tab-btn" onclick="switchTab('news')">📰 ข่าวสาร</button>
+        <button class="tab-btn" style="margin-left: auto; background: rgba(0, 255, 0, 0.1); color: #44ff44;" onclick="importNewsFromJSON()">📥 Sync News</button>
+        <button class="tab-btn" style="background: rgba(255, 255, 0, 0.1); color: #ffff44;" onclick="importMoviesFromJSON()">📥 Sync Movies</button>
+        <button class="tab-btn" style="background: rgba(255,165,0,0.1); color: orange;" onclick="upgradeFirestoreData()">⚙️ อัปเกรดข้อมูล (One-time)</button>
     </div>
 
     <div id="status-message" class="status"></div>
@@ -61,10 +66,13 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group"><label>ชื่อภาพยนตร์ (Name)</label><input type="text" id="m_name" required></div>
                     <div class="form-group"><label>Slug (URL ภาษาอังกฤษ เช่น my-movie)</label><input type="text" id="m_slug" required></div>
+                    <div class="form-group" style="grid-column: 1 / -1;"><label>ประเภทหนัง (เช่น AcuteFilm Originals)</label><input type="text" id="m_type" placeholder="เช่น AcuteFilm Originals" required></div>
                     <div class="form-group"><label>หมวดหมู่ (Genre)</label><input type="text" id="m_genre" required></div>
                     <div class="form-group"><label>ปีที่ฉาย (Release Year)</label><input type="text" id="m_release" required></div>
                     <div class="form-group"><label>ภาพโปสเตอร์ (เช่น img/poster.jpg)</label><input type="text" id="m_poster" value="img/" required></div>
                     <div class="form-group"><label>ภาพปกแบนเนอร์ (เช่น img/hero.jpg)</label><input type="text" id="m_hero" value="img/" required></div>
+                    <div class="form-group"><label>ผู้กำกับ (Director)</label><input type="text" id="m_director" required></div>
+                    <div class="form-group"><label>บทบาทของเรา (Our Role / Contribution)</label><input type="text" id="m_contribution" placeholder="เช่น Full Production หรือ Visual Effects" required></div>
                     <div class="form-group"><label>นักแสดง (Actors)</label><input type="text" id="m_actors" required></div>
                     <div class="form-group"><label>วิดีโอตัวอย่าง (YouTube Embed URL)</label><input type="text" id="m_video" required></div>
                 </div>
@@ -73,6 +81,7 @@
                     <textarea id="m_synopsis" required></textarea>
                 </div>
                 <button type="submit" class="btn" id="btn-submit-movie">บันทึกภาพยนตร์</button>
+                <button type="button" class="btn-cancel" id="btn-cancel-movie" onclick="cancelEdit('movies')">ยกเลิกการแก้ไข</button>
             </form>
         </div>
 
@@ -83,7 +92,7 @@
                     <tr>
                         <th>รูป</th>
                         <th>ชื่อภาพยนตร์</th>
-                        <th>หมวดหมู่</th>
+                        <th>ประเภท</th>
                         <th>ปี</th>
                         <th>จัดการ</th>
                     </tr>
@@ -112,6 +121,7 @@
                     <textarea id="n_content" required></textarea>
                 </div>
                 <button type="submit" class="btn" id="btn-submit-news">บันทึกข่าวสาร</button>
+                <button type="button" class="btn-cancel" id="btn-cancel-news" onclick="cancelEdit('news')">ยกเลิกการแก้ไข</button>
             </form>
         </div>
 
@@ -135,7 +145,169 @@
 
     <script type="module">
         import { db } from './firebase-config.js';
-        import { collection, addDoc, getDocs, doc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, query, orderBy, where, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        // Upgrade Existing Data
+        window.upgradeFirestoreData = async (e) => {
+            if(!confirm("ต้องการอัปเกรดข้อมูลเดิม (เพิ่ม Type: AcuteFilm Originals) หรือไม่?")) return;
+            const btn = e ? e.currentTarget : event.currentTarget;
+            btn.disabled = true;
+            const originalText = btn.innerText;
+            btn.innerText = "กำลังเชื่อมต่อ...";
+            
+            try {
+                console.log("Starting data upgrade...");
+                const snapshot = await getDocs(collection(db, 'movies'));
+                console.log(`Found ${snapshot.docs.length} movies.`);
+                let count = 0;
+                for (const movieDoc of snapshot.docs) {
+                    const data = movieDoc.data();
+                    let updates = {};
+                    if (!data.type) updates.type = "AcuteFilm Originals";
+                    if (!data.director) updates.director = "Sedthanun Chongchetdee";
+                    if (!data.contribution) {
+                        const isOriginal = (data.type || updates.type || '').toLowerCase().includes('original');
+                        updates.contribution = isOriginal ? "Full Production" : "Visual Effects";
+                    }
+                    
+                    if (Object.keys(updates).length > 0) {
+                        console.log(`Updating ${data.name}...`, updates);
+                        await updateDoc(doc(db, 'movies', movieDoc.id), updates);
+                        count++;
+                    }
+                }
+                showMessage(`✅ อัปเกรดสำเร็จ! อัปเดตไป ${count} รายการ`);
+                loadMovies();
+            } catch (error) {
+                console.error("Upgrade error:", error);
+                showMessage(`❌ เกิดข้อผิดพลาด: ${error.message}`, 'error');
+            }
+            btn.disabled = false;
+            btn.innerText = originalText;
+        };
+
+        // Sync News from JSON
+        window.importNewsFromJSON = async (e) => {
+            if(!confirm("ต้องการนำเข้า/อัปเดตข้อมูลข่าวสารจาก news.json หรือไม่?")) return;
+            const btn = e ? e.currentTarget : event.currentTarget;
+            btn.disabled = true;
+            const originalText = btn.innerText;
+            btn.innerText = "กำลังนำเข้า...";
+            
+            try {
+                const response = await fetch('news.json');
+                const data = await response.json();
+                const items = data.items;
+                
+                let count = 0;
+                for (const item of items) {
+                    // Use slug as document ID to update existing or create new
+                    await setDoc(doc(db, 'news', item.slug), item);
+                    count++;
+                }
+                showMessage(`✅ นำเข้าสำเร็จ! ประมวลผลไป ${count} รายการ`);
+                loadNews();
+            } catch (error) {
+                console.error("Import error:", error);
+                showMessage(`❌ เกิดข้อผิดพลาด: ${error.message}`, 'error');
+            }
+            btn.disabled = false;
+            btn.innerText = originalText;
+        };
+
+        // Sync Movies from JSON
+        window.importMoviesFromJSON = async (e) => {
+            if(!confirm("ต้องการนำเข้า/อัปเดตข้อมูลภาพยนตร์จาก movies.json หรือไม่?")) return;
+            const btn = e ? e.currentTarget : event.currentTarget;
+            btn.disabled = true;
+            const originalText = btn.innerText;
+            btn.innerText = "กำลังนำเข้า...";
+            
+            try {
+                const response = await fetch('movies.json');
+                const data = await response.json();
+                const items = data.items;
+                
+                let count = 0;
+                for (const item of items) {
+                    // Use slug as document ID
+                    await setDoc(doc(db, 'movies', item.slug), item);
+                    count++;
+                }
+                showMessage(`✅ นำเข้าสำเร็จ! ประมวลผลไป ${count} รายการ`);
+                loadMovies();
+            } catch (error) {
+                console.error("Import error:", error);
+                showMessage(`❌ เกิดข้อผิดพลาด: ${error.message}`, 'error');
+            }
+            btn.disabled = false;
+            btn.innerText = originalText;
+        };
+
+        // Editing State
+        let editingMovieId = null;
+        let editingNewsId = null;
+
+        window.cancelEdit = (type) => {
+            if (type === 'movies') {
+                editingMovieId = null;
+                document.getElementById('form-movie').reset();
+                document.getElementById('btn-submit-movie').innerText = 'บันทึกภาพยนตร์';
+                document.getElementById('btn-cancel-movie').style.display = 'none';
+                document.getElementById('m_poster').value = 'img/';
+                document.getElementById('m_hero').value = 'img/';
+            } else {
+                editingNewsId = null;
+                document.getElementById('form-news').reset();
+                document.getElementById('btn-submit-news').innerText = 'บันทึกข่าวสาร';
+                document.getElementById('btn-cancel-news').style.display = 'none';
+                document.getElementById('n_poster').value = 'img/';
+            }
+        };
+
+        window.editItem = async (type, id) => {
+            try {
+                const docRef = doc(db, type, id);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (type === 'movies') {
+                        editingMovieId = id;
+                        document.getElementById('m_name').value = data.name || '';
+                        document.getElementById('m_slug').value = data.slug || '';
+                        document.getElementById('m_type').value = data.type || '';
+                        document.getElementById('m_genre').value = data.genre || '';
+                        document.getElementById('m_director').value = data.director || '';
+                        document.getElementById('m_contribution').value = data.contribution || '';
+                        document.getElementById('m_release').value = data.release || '';
+                        document.getElementById('m_poster').value = data.poster || '';
+                        document.getElementById('m_hero').value = data.hero || '';
+                        document.getElementById('m_actors').value = data.actors || '';
+                        document.getElementById('m_video').value = data.video || '';
+                        document.getElementById('m_synopsis').value = data.synopsis || '';
+                        
+                        document.getElementById('btn-submit-movie').innerText = 'อัปเดตข้อมูลภาพยนตร์';
+                        document.getElementById('btn-cancel-movie').style.display = 'block';
+                        window.scrollTo({ top: document.getElementById('form-movie').offsetTop - 100, behavior: 'smooth' });
+                    } else {
+                        editingNewsId = id;
+                        document.getElementById('n_name').value = data.name || '';
+                        document.getElementById('n_slug').value = data.slug || '';
+                        document.getElementById('n_category').value = data.category || '';
+                        document.getElementById('n_date').value = data.date || '';
+                        document.getElementById('n_poster').value = data.poster || '';
+                        document.getElementById('n_content').value = data.content || '';
+                        
+                        document.getElementById('btn-submit-news').innerText = 'อัปเดตข้อมูลข่าวสาร';
+                        document.getElementById('btn-cancel-news').style.display = 'block';
+                        window.scrollTo({ top: document.getElementById('form-news').offsetTop - 100, behavior: 'smooth' });
+                    }
+                }
+            } catch (error) {
+                showMessage(`❌ ดึงข้อมูลไม่สำเร็จ: ${error.message}`, 'error');
+            }
+        };
 
         // UI Management
         window.switchTab = function(tab) {
@@ -166,9 +338,12 @@
                         <tr>
                             <td><img src="${data.poster}" class="img-preview" onerror="this.src='https://via.placeholder.com/50'"></td>
                             <td>${data.name}<br><small style="color:#888">${data.slug}</small></td>
-                            <td>${data.genre}</td>
+                            <td>${data.type || data.genre}<br><small style="color:#666">Dir: ${data.director || 'N/A'}</small><br><small style="color:var(--primary-color)">Role: ${data.contribution || 'N/A'}</small></td>
                             <td>${data.release}</td>
-                            <td><button class="btn-delete" onclick="deleteItem('movies', '${doc.id}')">ลบ</button></td>
+                            <td>
+                                <button class="btn-edit" onclick="editItem('movies', '${doc.id}')">แก้ไข</button>
+                                <button class="btn-delete" onclick="deleteItem('movies', '${doc.id}')">ลบ</button>
+                            </td>
                         </tr>
                     `;
                 });
@@ -186,7 +361,10 @@
             const newMovie = {
                 name: document.getElementById('m_name').value,
                 slug: document.getElementById('m_slug').value,
+                type: document.getElementById('m_type').value,
                 genre: document.getElementById('m_genre').value,
+                director: document.getElementById('m_director').value,
+                contribution: document.getElementById('m_contribution').value,
                 release: document.getElementById('m_release').value,
                 poster: document.getElementById('m_poster').value,
                 hero: document.getElementById('m_hero').value,
@@ -196,11 +374,17 @@
             };
 
             try {
-                await addDoc(collection(db, 'movies'), newMovie);
-                showMessage('✅ เพิ่มภาพยนตร์สำเร็จ!');
-                document.getElementById('form-movie').reset();
-                document.getElementById('m_poster').value = 'img/';
-                document.getElementById('m_hero').value = 'img/';
+                if (editingMovieId) {
+                    await setDoc(doc(db, 'movies', editingMovieId), newMovie);
+                    showMessage('✅ อัปเดตภาพยนตร์สำเร็จ!');
+                    cancelEdit('movies');
+                } else {
+                    await addDoc(collection(db, 'movies'), newMovie);
+                    showMessage('✅ เพิ่มภาพยนตร์สำเร็จ!');
+                    document.getElementById('form-movie').reset();
+                    document.getElementById('m_poster').value = 'img/';
+                    document.getElementById('m_hero').value = 'img/';
+                }
                 loadMovies();
             } catch (error) {
                 showMessage(`❌ เกิดข้อผิดพลาด: ${error.message}`, 'error');
@@ -223,7 +407,10 @@
                             <td><img src="${data.poster}" class="img-preview" onerror="this.src='https://via.placeholder.com/50'"></td>
                             <td>${data.name}<br><small style="color:#888">${data.slug}</small></td>
                             <td>${data.date}</td>
-                            <td><button class="btn-delete" onclick="deleteItem('news', '${doc.id}')">ลบ</button></td>
+                            <td>
+                                <button class="btn-edit" onclick="editItem('news', '${doc.id}')">แก้ไข</button>
+                                <button class="btn-delete" onclick="deleteItem('news', '${doc.id}')">ลบ</button>
+                            </td>
                         </tr>
                     `;
                 });
@@ -248,10 +435,16 @@
             };
 
             try {
-                await addDoc(collection(db, 'news'), newNews);
-                showMessage('✅ เพิ่มข่าวสารสำเร็จ!');
-                document.getElementById('form-news').reset();
-                document.getElementById('n_poster').value = 'img/';
+                if (editingNewsId) {
+                    await setDoc(doc(db, 'news', editingNewsId), newNews);
+                    showMessage('✅ อัปเดตข่าวสารสำเร็จ!');
+                    cancelEdit('news');
+                } else {
+                    await addDoc(collection(db, 'news'), newNews);
+                    showMessage('✅ เพิ่มข่าวสารสำเร็จ!');
+                    document.getElementById('form-news').reset();
+                    document.getElementById('n_poster').value = 'img/';
+                }
                 loadNews();
             } catch (error) {
                 showMessage(`❌ เกิดข้อผิดพลาด: ${error.message}`, 'error');

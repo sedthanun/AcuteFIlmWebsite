@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ลูกค้าของเรา | AcuteFilm</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/6719d38d22.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <a class="navbar-brand" href="index.html">
+            <img src="img/logo-new.png" alt="AcuteFilm Logo">
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li class="dropdown">
+                <a href="#" class="active">ผลงาน <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 0.3rem;"></i></a>
+                <div class="dropdown-content">
+                    <a href="movie.html">ภาพยนตร์</a>
+                    <a href="services.html">ลูกค้าของเรา</a>
+                </div>
+            </li>
+            <li><a href="news.html">ข่าวสาร</a></li>
+            <li><a href="about-us.html">ติดต่อเรา</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="hero" style="height: 60vh; padding: 0; position: relative; overflow: hidden;">
+        <img src="img/hero3.jpg" alt="Production Hero" style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="hero-overlay" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3), var(--bg-color)); position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+    </section>
+
+    <section class="news-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Who I've worked with</h2>
+                <hr>
+            </div>
+            <div class="glass" style="padding: 5rem 3rem; border-radius: 30px;">
+                <div class="client-grid">
+                    <!-- Logo 1: Red Circle -->
+                    <div class="client-logo-wrapper">
+                        <img src="img/logo-1.png" alt="Client 1">
+                    </div>
+                    <!-- Logo 2: Phoenix Next -->
+                    <div class="client-logo-wrapper">
+                        <img src="img/logo-2.png" alt="Phoenix Next">
+                    </div>
+                    <!-- Logo 3: M Studio -->
+                    <div class="client-logo-wrapper">
+                        <img src="img/logo-3.png" alt="M Studio">
+                    </div>
+                    <!-- Logo 4: Shinesaeng -->
+                    <div class="client-logo-wrapper">
+                        <img src="img/logo-4.png" alt="Shinesaeng">
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .client-grid {
+                    display: grid; 
+                    grid-template-columns: repeat(4, 1fr); 
+                    gap: 3rem; 
+                    align-items: center; 
+                    justify-items: center;
+                }
+                @media (max-width: 768px) {
+                    .client-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 2rem;
+                    }
+                }
+                .client-logo-wrapper {
+                    width: 100%;
+                    max-width: 200px;
+                    height: 100px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s ease;
+                }
+                .client-logo-wrapper {
+                    width: 100%;
+                    max-width: 200px;
+                    height: 100px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s ease;
+                }
+                .client-logo-wrapper img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                    filter: grayscale(1) brightness(0.8) opacity(0.5);
+                    transition: all 0.3s ease;
+                }
+                .client-logo-wrapper:hover img {
+                    filter: grayscale(0) brightness(1) opacity(1) !important;
+                    transform: scale(1.1);
+                }
+            </style>
+        </div>
+    </section>
+
+    <section class="news-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Showreel</h2>
+                <hr>
+            </div>
+            <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid var(--surface-border);">
+                <iframe 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                    src="https://www.youtube.com/embed/rEqWoTIXiSw" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/sedthanun/AcuteFIlmWebsite/"><i class="fab fa-github"></i></a>
+            <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p class="copyright">All rights reserved. JJDS 2026</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script type="module">
+        // Scroll to top functionality
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        
+        window.onscroll = function() {
+            const nav = document.getElementById('navbar');
+            if (window.pageYOffset > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        };
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileToggle.addEventListener('click', () => {
+            mobileToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const isDropdown = link.parentElement.classList.contains('dropdown');
+                if (window.innerWidth <= 768 && isDropdown) {
+                    e.preventDefault();
+                    link.parentElement.classList.toggle('active');
+                } else {
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        // Hide loading overlay when page is fully loaded
+        window.addEventListener('load', () => {
+            const overlay = document.getElementById('loading-overlay');
+            if (overlay) {
+                overlay.classList.add('hidden');
+                setTimeout(() => overlay.remove(), 500);
+            }
+        });
+    </script>
+</body>
+</html>

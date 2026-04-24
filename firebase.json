@@ -5,8 +5,8 @@
   "hosting": [
     {
       "target": "main",
-      "public": "public",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "public": "redesign-prototype",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "admin.html"],
       "cleanUrls": false,
       "headers": [
         {
@@ -21,10 +21,9 @@
       ],
       "rewrites": [
         { "source": "/", "destination": "/index.html" },
-        { "source": "/index", "destination": "/index.html" },
         { "source": "/movie", "destination": "/movie.html" },
-        { "source": "/about-us", "destination": "/about-us.html" },
-        { "source": "/movie/**", "destination": "/movie-detail.html" }
+        { "source": "/news", "destination": "/news.html" },
+        { "source": "/about-us", "destination": "/about-us.html" }
       ]
     },
     {

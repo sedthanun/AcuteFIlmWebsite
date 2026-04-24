@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movies | AcuteFilm</title>
+    <title>ผลงานภาพยนตร์ | AcuteFilm</title>
     <link rel="stylesheet" href="style.css">
     <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js">
     <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js">
@@ -11,13 +11,23 @@
 </head>
 <body>
 
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
     <nav class="navbar" id="navbar">
         <a class="navbar-brand" href="index.html">
             <img src="img/logo-new.png" alt="AcuteFilm Logo">
         </a>
         <ul class="nav-links" id="nav-links">
             <li><a href="index.html">หน้าแรก</a></li>
-            <li><a href="movie.html" class="active">ภาพยนตร์</a></li>
+            <li class="dropdown">
+                <a href="#" class="active">ผลงาน <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 0.3rem;"></i></a>
+                <div class="dropdown-content">
+                    <a href="movie.html">ภาพยนตร์</a>
+                    <a href="services.html">ลูกค้าของเรา</a>
+                </div>
+            </li>
             <li><a href="news.html">ข่าวสาร</a></li>
             <li><a href="about-us.html">ติดต่อเรา</a></li>
         </ul>
@@ -34,7 +44,7 @@
         <div class="container">
             <div class="hero-content">
                 <h1>ภาพยนตร์</h1>
-                <p>หนังสั้นผลิตโดย Acutefilm </p>
+                <p>ผลงานภาพยนตร์สั้น,ภาพยนตร์ Featured film และซีรีส์ที่ได้ร่วมทำ</p>
             </div>
         </div>
     </section>
@@ -52,7 +62,7 @@
             <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
             <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
         </div>
-        <p class="copyright">All rights reserved. AcuteDM 2025-2026</p>
+        <p class="copyright">All rights reserved. JJDS 2026</p>
     </footer>
 
     <!-- Scroll to Top Button -->
@@ -94,6 +104,21 @@
             document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
         });
 
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const isDropdown = link.parentElement.classList.contains('dropdown');
+                if (window.innerWidth <= 768 && isDropdown) {
+                    e.preventDefault();
+                    link.parentElement.classList.toggle('active');
+                } else {
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
         // Fetch Movie Data from Firestore
         import { db } from './firebase-config.js';
         import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -107,20 +132,29 @@
                 movieContainer.innerHTML = '';
                 snapshot.docs.forEach(doc => {
                     const item = { id: doc.id, ...doc.data() };
+                    const isOriginal = (item.type || '').toLowerCase().includes('acutefilm');
+                    const themeColor = isOriginal ? 'var(--primary-color)' : '#ffb400'; // Cyan for originals, Gold for VFX
+
                     const card = document.createElement('div');
                     card.className = 'movie-card';
                     card.innerHTML = `
                         <img src="${item.poster}" alt="${item.name}" loading="lazy">
                         <div class="card-content">
                             <h3>${item.name}</h3>
-                            <p style="color: var(--primary-color); font-size: 0.8rem; margin-bottom: 0.8rem;">${item.genre}</p>
+                            <p style="color: ${themeColor}; font-size: 0.8rem; margin-bottom: 0.8rem; font-weight: bold;">${item.type || ''}</p>
                             <a href="movie-detail.html?v=${item.slug}" class="card-link" style="font-size: 0.9rem;">ดูเพิ่มเติม</a>
                         </div>
                     `;
                     movieContainer.appendChild(card);
                 });
+                
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) {
+                    overlay.classList.add('hidden');
+                    setTimeout(() => overlay.remove(), 500);
+                }
             } catch (error) {
-                console.error('Error loading movies:', error);
+                console.error("Error loading movies:", error);
                 document.getElementById('movie-container').innerHTML = '<p style="color: red; grid-column: 1/-1; text-align: center;">ไม่สามารถโหลดข้อมูลหนังได้</p>';
             }
         }

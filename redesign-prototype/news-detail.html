@@ -13,16 +13,23 @@
         }
 
         .news-category-badge {
-            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 50%, #00d2ff 100%);
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
+            background: rgba(99, 222, 241, 0.05); /* พื้นหลังจางๆ สีฟ้า */
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 0.35rem 0.9rem;
+            border-radius: 8px; /* ปรับให้เป็นเหลี่ยมมนแบบเดียวกับ Card */
+            font-size: 0.75rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
+            letter-spacing: 1.5px;
             display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .news-category-badge:hover {
+            background: var(--primary-color);
+            color: #000;
+            box-shadow: 0 0 15px rgba(99, 222, 241, 0.4);
         }
 
         .news-detail-title {
@@ -105,13 +112,23 @@
 </head>
 <body>
 
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
     <nav class="navbar" id="navbar">
         <a class="navbar-brand" href="index.html">
             <img src="img/logo-new.png" alt="AcuteFilm Logo">
         </a>
         <ul class="nav-links" id="nav-links">
             <li><a href="index.html">หน้าแรก</a></li>
-            <li><a href="movie.html">ภาพยนตร์</a></li>
+            <li class="dropdown">
+                <a href="#">ผลงาน <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 0.3rem;"></i></a>
+                <div class="dropdown-content">
+                    <a href="movie.html">ภาพยนตร์</a>
+                    <a href="services.html">ลูกค้าของเรา</a>
+                </div>
+            </li>
             <li><a href="news.html" class="active">ข่าวสาร</a></li>
             <li><a href="about-us.html">ติดต่อเรา</a></li>
         </ul>
@@ -125,7 +142,7 @@
     <section class="news-section news-detail-section">
         <div class="container">
             <div class="news-detail-header">
-                <span id="news-category-badge" class="news-category-badge"></span>
+                <div id="news-categories-container" style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1rem;"></div>
                 <h1 id="news-title-hero" class="news-detail-title"></h1>
             </div>
 
@@ -140,7 +157,7 @@
                     <div id="news-date" class="news-date"></div>
                     <div class="share-links">
                         <a id="fb-share" href="#" target="_blank"><i class="fab fa-facebook fa-xl"></i></a>
-                        <a id="tw-share" href="#" target="_blank"><i class="fab fa-twitter fa-xl"></i></a>
+                        <a id="tw-share" href="#" target="_blank"><i class="fas fa-retweet fa-xl"></i></a>
                     </div>
                 </div>
             </div>
@@ -153,7 +170,7 @@
             <a href="https://www.youtube.com/@acutefilm"><i class="fab fa-youtube"></i></a>
             <a href="https://www.facebook.com/acutefilm"><i class="fab fa-facebook"></i></a>
         </div>
-        <p class="copyright">All rights reserved. AcuteDM 2025-2026</p>
+        <p class="copyright">All rights reserved. JJDS 2026</p>
     </footer>
 
     <!-- Scroll to Top Button -->
@@ -191,6 +208,22 @@
         mobileToggle.addEventListener('click', () => {
             mobileToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const isDropdown = link.parentElement.classList.contains('dropdown');
+                if (window.innerWidth <= 768 && isDropdown) {
+                    e.preventDefault();
+                    link.parentElement.classList.toggle('active');
+                } else {
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
         });
 
         // Fetch News Detail from Firestore
@@ -224,13 +257,30 @@
             document.getElementById('news-featured-img').src = news.poster;
             document.getElementById('news-featured-img').alt = news.name;
             document.getElementById('news-title-hero').innerText = news.name;
-            document.getElementById('news-category-badge').innerText = news.category;
+            
+            // Render multiple badges
+            const container = document.getElementById('news-categories-container');
+            container.innerHTML = '';
+            const categories = (news.category || 'News').split(',');
+            categories.forEach(cat => {
+                const badge = document.createElement('span');
+                badge.className = 'news-category-badge';
+                badge.innerText = cat.trim();
+                container.appendChild(badge);
+            });
             document.getElementById('news-content').innerHTML = news.content || news.story;
             document.getElementById('news-date').innerText = `เผยแพร่เมื่อ: ${news.date}`;
 
             const currentURL = encodeURIComponent(window.location.href);
             document.getElementById('fb-share').href = `https://www.facebook.com/sharer/sharer.php?u=${currentURL}`;
             document.getElementById('tw-share').href = `https://twitter.com/intent/tweet?url=${currentURL}&text=${news.name}`;
+
+            // Hide loading overlay
+            const overlay = document.getElementById('loading-overlay');
+            if (overlay) {
+                overlay.classList.add('hidden');
+                setTimeout(() => overlay.remove(), 500);
+            }
         }
 
         initNewsDetail();

@@ -5,10 +5,12 @@
             "poster": "img/The fame.webp",
             "hero": "img/hero-thefame.png",
             "slug": "The-Fame",
+            "type": "AcuteFilm Originals",
             "genre": "Drama / Thriller",
             "release": "2019",
             "synopsis": "โซเชี่ยลที่สามารถทำร้ายใครก็ได้ นานะเด็กนักเรียนหญิงที่เกลียดมายด์ เพื่อนในห้องที่เป็นตัวแทน School Idol 2019 ลองคิดว่าหากมายด์โพสตด่าโรงเรียนตัวเองจะเกิดอะไรขึ้น นานะแย่งโทรศัพท์มายด์มาเพียงแค่โพสต์ข้อความ โลกโซเชี่ยลก็พาข่าวนี้ไปอย่างรวดเร็วทำให้มายด์ถูกตัดสิทธิ์ออกจากการเป็นตัวแทน",
             "actors": "จีน่า อภัสรา, ออย บงกชธร, ปราม ธนานนท์",
+            "director": "Sedthanun Chongchetdee",
             "video": "https://www.youtube.com/embed/nTbYBqNtYEE"
         },
         {
@@ -16,10 +18,12 @@
             "poster": "img/Your Choice.webp",
             "hero": "img/Your Choice.webp",
             "slug": "Your-Choice",
+            "type": "AcuteFilm Originals",
             "genre": "Drama",
             "release": "2021",
             "synopsis": "เมื่อโบว์มัคคุเทศก์สาว เผอิญพบเจากับแพทหนุ่มที่หนีออกจากบ้าน เพราะปัญหาครอบครัว",
             "actors": "ณกันย์ พูลถิน, สรรพพร สุขเจริญ",
+            "director": "Sedthanun Chongchetdee",
             "video": "https://www.youtube.com/embed/HuU9Myw6Ik0"
         },
         {
@@ -27,10 +31,12 @@
             "poster": "img/gof.jpg",
             "hero": "img/gof.jpg",
             "slug": "Good-Old-Friend",
+            "type": "AcuteFilm Originals",
             "genre": "Drama / Nostalgia",
             "release": "2025",
             "synopsis": "บัณฑิตหนุ่มพบรูปถ่ายเก่าของเพื่อนรักสมัยมัธยมโดยบังเอิญ นำพาเขาออกเดินทางย้อนรอยความทรงจำ สู่สถานที่ที่เคยเป็นของพวกเขา เพื่อระลึกถึงมิตรภาพอันงดงามและไร้กาลเวลา",
             "actors": "อรรถภูมิ อินทพงษ์, วณิชย์ ทรรภลักษณ์",
+            "director": "Sedthanun Chongchetdee",
             "video": "https://www.youtube.com/embed/BKggWgAVHkU"
         }
     ]
