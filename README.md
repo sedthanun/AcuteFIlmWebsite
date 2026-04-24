@@ -5,7 +5,7 @@
 ## 🎬 About
 เว็บไซต์นี้สร้างขึ้นเพื่อนำเสนอผลงานภาพยนตร์ ข่าวสาร และบริการต่างๆ ของ AcuteFilm โดยเน้นดีไซน์ที่มินิมอล 
 
-## 🛠 Technology Useds
+## 🛠 Technology
 - **Frontend:** HTML5, Vanilla CSS3 (Custom Variables & Modern Layouts), JavaScript (ES6+)
 - **Backend/Hosting:** [Firebase](https://firebase.google.com/)
   - **Firebase Hosting:** สำหรับการจัดวางไฟล์เว็บ
@@ -14,15 +14,14 @@
 ## 📜 Changelog
 
 ### [v3.0] - 2026 (Modern Redesign)
-- **Cinematic Redesign:** ปรับโฉมหน้าเว็บใหม่ทั้งหมด เน้นความพรีเมียมและมินิมอล
+- **Cinematic Redesign:** ปรับโฉมหน้าเว็บใหม่ทั้งหมด 
 - **Hero Dynamic Slideshow:** ระบบสไลด์ภาพหน้าแรกพร้อม Progress Bar และตัวควบคุม
 - **Firestore Integration:** เปลี่ยนระบบข่าวสารจากไฟล์ JSON เป็นการดึงข้อมูลจาก Cloud Firestore แบบ Real-time
 - **Enhanced Responsiveness:** ปรับปรุงการแสดงผลบนมือถือให้สมบูรณ์แบบ 100%
 - **Security:** อัปเดต Security Rules สำหรับ Firestore
 
 ### [v2.5] - 2025
-- **Dynamic Linking:** ปรับปรุงระบบลิงก์ภายในเว็บไซต์
-- **Media Update:** เพิ่มภาพหน้าปก (Cover) และสื่อมัลติมีเดียใหม่ๆ
+- **Dynamic Linking:** ปรับปรุงระบบการดึงข้อแบบ dynamic ผ่าน movie-detail และ news-detail
 
 ### [v2.0] - 2024
 - **Share System:** เพิ่มปุ่มแชร์ไปยัง Social Media
