@@ -2,18 +2,16 @@
 
 ยินดีต้อนรับสู่โปรเจกต์เว็บไซต์อย่างเป็นทางการของ **AcuteFilm** 
 
-## 🎬 เกี่ยวกับโปรเจกต์
+## 🎬 About
 เว็บไซต์นี้สร้างขึ้นเพื่อนำเสนอผลงานภาพยนตร์ ข่าวสาร และบริการต่างๆ ของ AcuteFilm โดยเน้นดีไซน์ที่มินิมอล 
 
-## 🛠 เทคโนโลยีที่ใช้
+## 🛠 Technology Useds
 - **Frontend:** HTML5, Vanilla CSS3 (Custom Variables & Modern Layouts), JavaScript (ES6+)
 - **Backend/Hosting:** [Firebase](https://firebase.google.com/)
   - **Firebase Hosting:** สำหรับการจัดวางไฟล์เว็บ
   - **Cloud Firestore:** สำหรับจัดเก็บข้อมูลข่าวสารและภาพยนตร์
-- **Icons:** Font Awesome 6.0+
-- **Typography:** Sukhumvit Set / IBM Plex Sans Thai
 
-## 📜 บันทึกการเปลี่ยนแปลง (Changelog)
+## 📜 Changelog
 
 ### [v3.0] - 2026 (Modern Redesign)
 - **Cinematic Redesign:** ปรับโฉมหน้าเว็บใหม่ทั้งหมด เน้นความพรีเมียมและมินิมอล
