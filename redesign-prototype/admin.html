@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AcuteFilm Admin Dashboard</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a0a0a; color: white; padding: 2rem; max-width: 1000px; margin: 0 auto; line-height: 1.6; }
-        h1 { color: #00d2ff; text-align: center; margin-bottom: 2rem; }
+        @font-face {
+            font-family: 'maledpan-regular';
+            src: url('maledpan-regular-webfont-webfont.woff2') format('woff2'),
+                 url('maledpan-regular-webfont-webfont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body { font-family: 'maledpan-regular', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a0a0a; color: white; padding: 2rem; max-width: 1000px; margin: 0 auto; line-height: 1.6; }
+        h1 { color: #00d2ff; text-align: center; margin-bottom: 2rem; font-weight: normal; }
         
         .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #333; padding-bottom: 1rem; }
-        .tab-btn { background: none; border: none; color: #aaa; font-size: 1.2rem; cursor: pointer; padding: 0.5rem 1rem; font-weight: bold; border-radius: 8px; transition: 0.3s; }
+        .tab-btn { background: none; border: none; color: #aaa; font-size: 1.2rem; cursor: pointer; padding: 0.5rem 1rem; font-weight: normal ; border-radius: 8px; transition: 0.3s; }
         .tab-btn.active { background: rgba(0, 210, 255, 0.1); color: #00d2ff; }
         .tab-btn:hover { color: white; }
 
@@ -17,15 +24,15 @@
         .tab-content.active { display: block; }
 
         .card { background: #1a1a1a; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #333; }
-        .card h2 { margin-top: 0; margin-bottom: 1.5rem; font-size: 1.3rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+        .card h2 { margin-top: 0; margin-bottom: 1.5rem; font-size: 1.3rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; font-weight: normal; }
 
         .form-group { margin-bottom: 1rem; }
         label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: #ccc; }
-        input, textarea, select { width: 100%; padding: 10px; background: #0f0f0f; border: 1px solid #333; color: white; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
+        input, textarea, select, button { width: 100%; padding: 10px; background: #0f0f0f; border: 1px solid #333; color: white; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
         input:focus, textarea:focus { outline: none; border-color: #00d2ff; }
         textarea { resize: vertical; min-height: 100px; }
         
-        .btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; width: 100%; margin-top: 1rem; }
+        .btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: normal ; font-size: 1rem; width: 100%; margin-top: 1rem; }
         .btn:hover { opacity: 0.9; }
         .btn:disabled { background: #555; cursor: not-allowed; }
 
@@ -36,7 +43,7 @@
         .btn-edit { background: #00d2ff; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; margin-right: 5px; }
         .btn-delete { background: #ff0040; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; margin-right: 5px; }
         .btn-edit:hover { background: #00b0ff; }
-        .btn-cancel { background: #555; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; width: 100%; margin-top: 0.5rem; display: none; }
+        .btn-cancel { background: #555; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: normal; font-size: 1rem; width: 100%; margin-top: 0.5rem; display: none; }
         
         .img-preview { max-width: 50px; border-radius: 4px; }
         .status { margin-top: 1rem; padding: 10px; border-radius: 8px; display: none; text-align: center; }

@@ -61,7 +61,7 @@
 
         <!-- Slide 3: Good Old Friend -->
         <div class="slide">
-            <img src="img/gof.jpg" alt="Good Old Friend" class="hero-bg gof-bg">
+            <img src="img/gof-hero.png" alt="Good Old Friend" class="hero-bg gof-bg">
             <div class="hero-overlay"></div>
             <div class="hero-content">
                 <div class="originals-tag" style="color: var(--primary-color); font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem; letter-spacing: 2px;">AcuteFilm Originals</div>
@@ -122,6 +122,15 @@
             </div>
         </div>
     </section>
+    <section class="site-visitor-section">
+        <div class="container">
+            <div class="site-count-badge">
+                <i class="fas fa-eye"></i>
+                <span id="visitor-count">...</span>
+                <span>views</span>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="social-links">
@@ -131,6 +140,18 @@
         </div>
         <p class="copyright">All rights reserved. JJDS 2026</p>
     </footer>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="vm-modal">
+        <div class="vm-container">
+            <button id="closeModal" class="vm-close" aria-label="Close Video">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="vm-video-wrapper">
+                <iframe id="videoPlayer" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
 
     <!-- Scroll to Top Button -->
     <button id="scrollToTopBtn" class="scroll-to-top" aria-label="Scroll to top">
@@ -211,7 +232,7 @@
 
         // Fetch News Data from Firestore
         import { db } from './firebase-config.js';
-        import { collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { collection, getDocs, query, orderBy, limit, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const newsContainer = document.getElementById('news-container');
 
@@ -268,6 +289,36 @@
         }, observerOptions);
 
         loadNews();
+
+        // Site Visitor Counter Logic
+        async function updateVisitorCount() {
+            const visitorRef = doc(db, 'stats', 'site_visitor');
+            const visitorDisplay = document.getElementById('visitor-count');
+            
+            try {
+                // Check if visitor has already been counted this session
+                const hasVisited = sessionStorage.getItem('visited');
+                
+                if (!hasVisited) {
+                    // Use setDoc with merge: true to handle both initial creation and incrementing
+                    // If the doc doesn't exist, it creates it with count: 1
+                    await setDoc(visitorRef, { count: increment(1) }, { merge: true });
+                    sessionStorage.setItem('visited', 'true');
+                }
+                
+                // Fetch the latest count
+                const docSnap = await getDoc(visitorRef);
+                if (docSnap.exists()) {
+                    const count = docSnap.data().count || 0;
+                    visitorDisplay.textContent = count.toLocaleString();
+                }
+            } catch (error) {
+                console.error("Error updating visitor count:", error);
+                if (visitorDisplay) visitorDisplay.textContent = '---';
+            }
+        }
+
+        updateVisitorCount();
 
         // Hero Slider Logic
         let currentSlideIndex = 0;
@@ -339,6 +390,41 @@
 
         // Initialize progress bar width
         progressBar.style.width = `${100 / slides.length}%`;
+
+        // Video Modal Logic
+        const videoModal = document.getElementById('videoModal');
+        const closeModal = document.getElementById('closeModal');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoUrl = "https://www.youtube.com/embed/utHQKQkClao?si=zGyGdqgCKFquyU-J&autoplay=1&mute=1";
+
+        function openVideoModal() {
+            // Check if it's the first time in this session
+            if (!sessionStorage.getItem('videoShown')) {
+                videoPlayer.src = videoUrl;
+                videoModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                sessionStorage.setItem('videoShown', 'true');
+            }
+        }
+
+        // Open as soon as script runs
+        openVideoModal();
+
+        closeModal.addEventListener('click', () => {
+            videoModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            // Stop video by clearing src
+            setTimeout(() => {
+                videoPlayer.src = "";
+            }, 600); // Wait for transition to finish
+        });
+
+        // Close on backdrop click
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                closeModal.click();
+            }
+        });
     </script>
 </body>
 </html>

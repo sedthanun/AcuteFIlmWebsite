@@ -1,6 +1,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    match /stats/site_visitor {
+      allow read, write: if true;
+    }
     match /{document=**} {
       // Production Mode:
       // อนุญาตให้อ่านอย่างเดียว เพื่อให้หน้าเว็บแสดงผลได้

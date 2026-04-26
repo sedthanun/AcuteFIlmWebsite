@@ -1084,3 +1084,122 @@ footer {
         font-size: 1rem;
     }
 }
+/* Site Visitor Count Section */
+.site-visitor-section {
+    padding: 1rem 0;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.site-count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 50px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    transition: var(--transition);
+    cursor: default;
+}
+
+.site-count-badge i {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+}
+
+.site-count-badge span {
+    font-weight: 600;
+}/* Video Modal */
+.vm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+}
+
+.vm-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.vm-container {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    aspect-ratio: 16/9;
+    transform: scale(0.9);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vm-modal.active .vm-container {
+    transform: scale(1);
+}
+
+.vm-video-wrapper {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(99, 222, 241, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vm-video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.vm-close {
+    position: absolute;
+    top: -60px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10001;
+    backdrop-filter: blur(5px);
+}
+
+.vm-close:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #000;
+    transform: rotate(90deg);
+}
+
+@media (max-width: 768px) {
+    .vm-container {
+        width: 95%;
+    }
+    
+    .vm-close {
+        top: -50px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+}
