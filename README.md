@@ -6,12 +6,18 @@
 เว็บไซต์นี้สร้างขึ้นเพื่อนำเสนอผลงานภาพยนตร์ ข่าวสาร และบริการต่างๆ ของ AcuteFilm โดยเน้นดีไซน์ที่มินิมอล 
 
 ## 🛠 Technology
-- **Frontend:** HTML5, Vanilla CSS3 (Custom Variables & Modern Layouts), JavaScript (ES6+)
+- **Frontend:** Next.js 15 (App Router), React 19, JavaScript (ES6+), Vanilla CSS3
 - **Backend/Hosting:** [Firebase](https://firebase.google.com/)
   - **Firebase Hosting:** สำหรับการจัดวางไฟล์เว็บ
   - **Cloud Firestore:** สำหรับจัดเก็บข้อมูลข่าวสารและภาพยนตร์
 
 ## 📜 Changelog
+
+### [v3.1] - 2026 (Next.js Migration)
+- **Framework Upgrade:** ย้ายโปรเจกต์สู่ Next.js 15 (App Router) เพื่อความเร็วและประสิทธิภาพสูงสุด
+- **SEO & Metadata:** ระบบ Dynamic Metadata สมบูรณ์แบบ รองรับ Social Share (Facebook/Twitter) และ Site Name บน Google Search
+- **Firestore REST API:** เพิ่มความเสถียรในการดึงข้อมูลจาก Cloud Firestore
+- **Deployment:** อัปเดต Firebase Hosting ให้รองรับ Next.js Static Export
 
 ### [v3.0] - 2026 (Modern Redesign)
 - **Cinematic Redesign:** ปรับโฉมหน้าเว็บใหม่ทั้งหมด 
