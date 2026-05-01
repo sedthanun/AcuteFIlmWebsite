@@ -5,6 +5,9 @@
   "targets": {
     "acutefilmmovies": {
       "hosting": {
+        "v3": [
+          "acutefilmmovies-v3"
+        ],
         "redesign": [
           "acutefilmmovies-v2"
         ],

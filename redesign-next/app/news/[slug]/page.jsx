@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
   try {
-    const res = await fetch('https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/news');
+    const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/news?t=${Date.now()}`);
     if (res.ok) {
       const data = await res.json();
       if (data.documents) {
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 
 async function getNewsData(slug) {
   try {
-    const res = await fetch('https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/news');
+    const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/news?t=${Date.now()}`);
     if (res.ok) {
       const data = await res.json();
       if (data.documents) {
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }) {
   const news = await getNewsData(slug);
   if (!news) return { title: 'Not Found | AcuteFilm' };
   
-  const SITE_URL = 'https://acutefilmmovies-v3.web.app';
+  const SITE_URL = 'https://acutefilmmovies.web.app';
   // Strip HTML for description
   const plainText = (news.content || news.story || '').replace(/<[^>]*>?/gm, '');
   const description = plainText.substring(0, 160) + (plainText.length > 160 ? '...' : '');
@@ -223,8 +223,8 @@ export default async function NewsDetail({ params }) {
                 <div className="news-footer-bar">
                     <div id="news-date" className="news-date">เผยแพร่เมื่อ: {news.date}</div>
                     <div className="share-links">
-                        <a id="fb-share" href={`https://www.facebook.com/sharer/sharer.php?u=https://acutefilmmovies-v3.web.app/news/${resolvedParams.slug}`} target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook fa-xl"></i></a>
-                        <a id="tw-share" href={`https://twitter.com/intent/tweet?url=https://acutefilmmovies-v3.web.app/news/${resolvedParams.slug}&text=${news.name}`} target="_blank" rel="noopener noreferrer"><i className="fas fa-retweet fa-xl"></i></a>
+                        <a id="fb-share" href={`https://www.facebook.com/sharer/sharer.php?u=https://acutefilmmovies.web.app/news/${resolvedParams.slug}`} target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook fa-xl"></i></a>
+                        <a id="tw-share" href={`https://twitter.com/intent/tweet?url=https://acutefilmmovies.web.app/news/${resolvedParams.slug}&text=${news.name}`} target="_blank" rel="noopener noreferrer"><i className="fas fa-retweet fa-xl"></i></a>
                     </div>
                 </div>
             </div>

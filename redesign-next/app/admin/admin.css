@@ -1,0 +1,269 @@
+.admin-body { 
+    font-family: 'maledpan-regular', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    background: #0a0a0a; 
+    color: white; 
+    padding: clamp(1rem, 3vw, 2rem); 
+    padding-top: 140px; 
+    width: 100%;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.admin-container h1 { 
+    color: #00d2ff; 
+    text-align: center; 
+    margin-bottom: 2rem; 
+    font-weight: normal; 
+}
+
+.tabs { 
+    display: flex; 
+    gap: 0; 
+    margin-bottom: 0; 
+    border-bottom: 2px solid #333; 
+    width: 100%;
+}
+
+.tab-btn { 
+    background: none; 
+    border: none; 
+    color: #888; 
+    font-size: 1.1rem; 
+    cursor: pointer; 
+    padding: 1rem 2rem; 
+    font-weight: normal ; 
+    transition: 0.3s; 
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    margin-bottom: -2px;
+}
+
+.tab-btn.active { 
+    color: #00d2ff; 
+    border-bottom: 3px solid #00d2ff;
+    background: rgba(0, 210, 255, 0.05);
+}
+
+.tab-btn:hover { 
+    color: white; 
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Actions bar for Sync/Upgrade */
+.admin-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #111;
+    border-radius: 0 0 12px 12px;
+    border: 1px solid #333;
+    border-top: none;
+    flex-wrap: wrap;
+}
+
+.btn-sync {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid #444 !important;
+    color: #ccc !important;
+    font-size: 0.85rem !important;
+    padding: 6px 15px !important;
+    width: auto !important;
+    border-radius: 50px !important;
+    transition: 0.3s !important;
+}
+
+.btn-sync:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: #666 !important;
+    color: white !important;
+}
+
+.tab-content { 
+    display: none; 
+}
+
+.tab-content.active { 
+    display: block; 
+}
+
+.card { 
+    background: #1a1a1a; 
+    padding: 2.5rem; 
+    border-radius: 12px; 
+    margin-bottom: 2rem; 
+    border: 1px solid #333; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.card h2 { 
+    margin-top: 0; 
+    margin-bottom: 1.5rem; 
+    font-size: 1.3rem; 
+    border-bottom: 1px solid #333; 
+    padding-bottom: 0.5rem; 
+    font-weight: normal; 
+}
+
+.form-group { 
+    margin-bottom: 1rem; 
+}
+
+.admin-container label { 
+    display: block; 
+    margin-bottom: 0.5rem; 
+    font-size: 0.9rem; 
+    color: #ccc; 
+}
+
+.admin-container input, 
+.admin-container textarea, 
+.admin-container select, 
+.admin-container button { 
+    width: 100%; 
+    padding: 10px; 
+    background: #0f0f0f; 
+    border: 1px solid #333; 
+    color: white; 
+    border-radius: 6px; 
+    box-sizing: border-box; 
+    font-family: inherit; 
+}
+
+.admin-container input:focus, 
+.admin-container textarea:focus { 
+    outline: none; 
+    border-color: #00d2ff; 
+}
+
+.admin-container textarea { 
+    resize: vertical; 
+    min-height: 100px; 
+}
+
+.btn { 
+    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); 
+    color: white !important; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: normal ; 
+    font-size: 1rem; 
+    width: 100%; 
+    margin-top: 1rem; 
+    text-align: center;
+}
+
+.btn:hover { 
+    opacity: 0.9; 
+}
+
+.btn:disabled { 
+    background: #555; 
+    cursor: not-allowed; 
+}
+
+.admin-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 1rem; 
+}
+
+.admin-table th, 
+.admin-table td { 
+    padding: 12px; 
+    text-align: left; 
+    border-bottom: 1px solid #333; 
+}
+
+.admin-table th { 
+    color: #888; 
+    font-weight: normal; 
+    font-size: 0.9rem; 
+}
+
+.admin-table td { 
+    font-size: 0.95rem; 
+}
+
+.btn-edit { 
+    background: #00d2ff; 
+    color: white; 
+    border: none; 
+    padding: 6px 12px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 0.8rem; 
+    margin-right: 5px; 
+    width: auto !important;
+}
+
+.btn-delete { 
+    background: #ff0040; 
+    color: white; 
+    border: none; 
+    padding: 6px 12px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 0.8rem; 
+    margin-right: 5px; 
+    width: auto !important;
+}
+
+.btn-edit:hover { 
+    background: #00b0ff; 
+}
+
+.btn-delete:hover { 
+    background: #e60039; 
+}
+
+.btn-cancel { 
+    background: #555; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: normal; 
+    font-size: 1rem; 
+    width: 100%; 
+    margin-top: 0.5rem; 
+}
+
+.img-preview { 
+    max-width: 50px; 
+    border-radius: 4px; 
+}
+
+.status-box { 
+    margin-top: 1rem; 
+    padding: 10px; 
+    border-radius: 8px; 
+    text-align: center; 
+    margin-bottom: 1rem;
+}
+
+.status-box.success { 
+    background: rgba(0, 255, 0, 0.1); 
+    color: #00ff00; 
+    border: 1px solid #00ff00; 
+}
+
+.status-box.error { 
+    background: rgba(255, 0, 0, 0.1); 
+    color: #ff5555; 
+    border: 1px solid #ff5555; 
+}
+
+/* Security restricted styles */
+.security-restricted {
+    min-height: 100vh;
+    background: #050505;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}

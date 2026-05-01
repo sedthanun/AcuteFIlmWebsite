@@ -659,6 +659,18 @@ footer {
     font-size: 0.9rem;
 }
 
+.copyright a {
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.copyright a:hover {
+    color: var(--text-main);
+    text-shadow: 0 0 10px var(--primary-glow);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     :root {
@@ -1202,4 +1214,4 @@ footer {
     }
 }
 
-}
+

@@ -14,15 +14,29 @@ const anuphan = Anuphan({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://acutefilmmovies-v3.web.app'),
+  metadataBase: new URL('https://acutefilmmovies.web.app'),
   title: 'AcuteFilm | Media Production',
   description: 'Acute Film - Video Production, Visual Effects, Motion Graphics',
+  openGraph: {
+    siteName: 'AcuteFilm',
+  }
 };
 
 export default function RootLayout({ children }) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'name': 'AcuteFilm',
+    'url': 'https://acutefilmmovies.web.app',
+  };
+
   return (
     <html lang="en">
       <body className={anuphan.variable}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Navbar />
         {children}
         <Footer />

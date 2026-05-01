@@ -5,26 +5,29 @@
   "hosting": [
     {
       "target": "main",
-      "public": "redesign-prototype",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "admin.html"],
-      "cleanUrls": false,
-      "headers": [
-        {
-          "source": "**/*",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
-            }
-          ]
-        }
+      "public": "redesign-next/out",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "admin.html",
+        "admin/**"
       ],
-      "rewrites": [
-        { "source": "/", "destination": "/index.html" },
-        { "source": "/movie", "destination": "/movie.html" },
-        { "source": "/news", "destination": "/news.html" },
-        { "source": "/about-us", "destination": "/about-us.html" }
-      ]
+      "cleanUrls": true,
+      "trailingSlash": false
+    },
+    {
+      "target": "v3",
+      "public": "redesign-next/out",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "admin.html",
+        "admin/**"
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false
     },
     {
       "target": "redesign",

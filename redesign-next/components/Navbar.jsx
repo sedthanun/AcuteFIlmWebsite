@@ -50,7 +50,6 @@ export default function Navbar() {
     document.body.style.overflow = newState ? 'hidden' : 'auto';
   };
 
-  if (pathname === '/admin') return null;
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled shadow-lg bg-black/70 backdrop-blur-md' : 'bg-transparent'} fixed top-0 w-full z-[1000] flex justify-between items-center transition-all duration-300`}>

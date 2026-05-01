@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
   try {
-    const res = await fetch('https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies');
+    const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies?t=${Date.now()}`);
     if (res.ok) {
       const data = await res.json();
       if (data.documents) {
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 
 async function getMovieData(slug) {
   try {
-    const res = await fetch('https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies');
+    const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies?t=${Date.now()}`);
     if (res.ok) {
       const data = await res.json();
       if (data.documents) {
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }) {
   const movie = await getMovieData(slug);
   if (!movie) return { title: 'Not Found | AcuteFilm' };
   
-  const SITE_URL = 'https://acutefilmmovies-v3.web.app';
+  const SITE_URL = 'https://acutefilmmovies.web.app';
   const description = (movie.synopsis || '').substring(0, 160) + (movie.synopsis?.length > 160 ? '...' : '');
   const imagePath = movie.hero || movie.poster || '';
   const imageUrl = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
@@ -152,10 +152,10 @@ export default async function MovieDetail({ params }) {
                 <VideoPlayerTrigger videoUrl={videoUrl} thumbnail={(movie.hero || movie.poster)?.startsWith('/') ? (movie.hero || movie.poster) : `/${movie.hero || movie.poster}`} />
 
                 <div className="share-links" style={{ marginTop: '3rem', display: 'flex', gap: '2rem', justifyContent: 'center' }}>
-                    <a id="fb-share" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://acutefilmmovies-v3.web.app/movies/${resolvedParams.slug}`)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-main)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 0.7, transition: '0.3s' }}>
+                    <a id="fb-share" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://acutefilmmovies.web.app/movies/${resolvedParams.slug}`)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-main)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 0.7, transition: '0.3s' }}>
                         <i className="fab fa-facebook fa-2x"></i> <span>Share</span>
                     </a>
-                    <a id="tw-share" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://acutefilmmovies-v3.web.app/movies/${resolvedParams.slug}`)}&text=${encodeURIComponent(`Watching ${movie.name}`)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-main)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 0.7, transition: '0.3s' }}>
+                    <a id="tw-share" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://acutefilmmovies.web.app/movies/${resolvedParams.slug}`)}&text=${encodeURIComponent(`Watching ${movie.name}`)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-main)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 0.7, transition: '0.3s' }}>
                         <i className="fab fa-x-twitter fa-2x"></i> <span>Post</span>
                     </a>
                 </div>

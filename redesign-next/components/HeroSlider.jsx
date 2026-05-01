@@ -11,7 +11,8 @@ export default function HeroSlider() {
   useEffect(() => {
     async function loadHeroMovies() {
       try {
-        const res = await fetch('https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies');
+        // เพิ่ม Cache Buster เพื่อให้ได้ข้อมูลล่าสุดเหมือนในหน้า Movie Detail
+        const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies?t=${Date.now()}`);
         if (res.ok) {
           const data = await res.json();
           if (data.documents) {
@@ -21,22 +22,50 @@ export default function HeroSlider() {
                 item[key] = value.stringValue || value.integerValue || value.booleanValue || '';
               }
               
-              const isOriginal = (item.type || '').toLowerCase().includes('acutefilm');
-              const image = item.hero || item.poster || '';
+              const slug = (item.slug || item.id || '').toLowerCase();
+              const imagePath = item.hero || '';
+              
+              // Custom Tag สำหรับแต่ละเรื่อง (แก้ไขตรงนี้ได้เลยทั้งข้อความและสี)
+              const customTags = {
+                'the-fame': { text: 'AcuteFilm Original', color: 'var(--primary-color)' },
+                'bystander': { text: 'VFX By AcuteFilm', color: '#ffb400' },
+                'good-old-friend': { text: 'AcuteFilm Original', color: 'var(--primary-color)' }
+              };
+              
+              const currentTag = customTags[slug] || { text: 'AcuteFilm Original', color: 'var(--primary-color)' };
               
               return {
                 id: item.slug || item.id,
                 title: item.name,
                 subtitle: (item.synopsis || '').substring(0, 100) + '...',
-                image: image.startsWith('/') ? image : `/${image}`,
-                tag: item.type || (isOriginal ? 'AcuteFilm Originals' : 'VFX Work'),
-                tagColor: isOriginal ? 'var(--primary-color)' : '#ffb400',
-                isGof: (item.slug === 'Good-Old-Friend')
+                image: imagePath.startsWith('/') ? imagePath : `/${imagePath}`,
+                tag: currentTag.text,
+                tagColor: currentTag.color,
+                isGof: (slug === 'good-old-friend')
               };
             });
             
-            // เลือก 3 เรื่องล่าสุด (หรือเรื่องที่มี hero image)
-            setSlides(movies.sort((a, b) => (b.release || '').localeCompare(a.release || '')).slice(0, 3));
+            // กำหนดลำดับสไลด์ตามที่คุณลูกค้าต้องการ
+            const order = ['the-fame', 'bystander', 'good-old-friend'];
+            const finalSlides = [];
+            
+            order.forEach(slug => {
+              const movie = movies.find(m => (m.id || '').toLowerCase() === slug);
+              if (movie) finalSlides.push(movie);
+            });
+
+            // ถ้าหา 3 เรื่องบนไม่เจอ (เผื่อไว้) ให้เอาเรื่องใหม่ล่าสุดมาเติมให้ครบ 3
+            if (finalSlides.length < 3) {
+              const extras = movies
+                .filter(m => !order.includes((m.id || '').toLowerCase()))
+                .sort((a, b) => (b.release || '').localeCompare(a.release || ''));
+              
+              while (finalSlides.length < 3 && extras.length > 0) {
+                finalSlides.push(extras.shift());
+              }
+            }
+
+            setSlides(finalSlides);
           }
         }
       } catch (error) {
@@ -76,7 +105,7 @@ export default function HeroSlider() {
     <section className="hero" id="hero-slider">
       {slides.map((slide, index) => (
         <div key={slide.id} className={`slide ${index === currentSlideIndex ? 'active' : ''}`}>
-          <img src={slide.image} alt={slide.title} className={`hero-bg ${slide.isGof ? 'gof-bg' : ''}`} />
+          <img src={`${slide.image}?t=${Date.now()}`} alt={slide.title} className={`hero-bg ${slide.isGof ? 'gof-bg' : ''}`} />
           <div className="hero-overlay"></div>
           <div className="hero-content">
             <div className="originals-tag" style={{ color: slide.tagColor, fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', letterSpacing: '2px' }}>

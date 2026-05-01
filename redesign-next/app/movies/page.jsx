@@ -3,7 +3,7 @@ import Link from 'next/link';
 // ดึงข้อมูลล่วงหน้า (Pre-rendering / SSG) เพื่อให้โหลดเร็วขึ้น
 async function getMovies() {
   try {
-    const res = await fetch('https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies');
+    const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies?t=${Date.now()}`);
     if (res.ok) {
       const data = await res.json();
       if (data.documents) {

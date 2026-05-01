@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 async function getNews() {
   try {
-    const res = await fetch('https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/news');
+    const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/news?t=${Date.now()}`);
     if (res.ok) {
       const data = await res.json();
       if (data.documents) {
