@@ -1,0 +1,221 @@
+/* ============================================================
+   NAVBAR RESTORATION & UPDATES
+   ============================================================ */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    padding: 1rem 2rem;
+    background: rgba(5, 5, 5, 0.7);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-brand img {
+    height: 80px;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled .navbar-brand img {
+    height: 60px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    margin-left: auto;
+}
+
+.menu-toggle {
+    display: none; /* Hidden on Desktop */
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--text-main);
+    text-shadow: 0 0 15px var(--primary-glow);
+}
+
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(15px);
+    min-width: 220px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    z-index: 2000;
+    padding: 0.8rem 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dropdown-content a {
+    color: var(--text-muted);
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem !important;
+    text-transform: none !important;
+    letter-spacing: 0.5px !important;
+    text-align: left;
+    border-radius: 8px;
+}
+
+/* ============================================================
+   RESPONSIVE MOBILE OVERRIDES (Max-width: 768px)
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .navbar {
+        height: calc(var(--navbar-height) + var(--safe-top)) !important;
+        padding-top: var(--safe-top) !important;
+        padding-bottom: 0 !important;
+        padding-left: 1.2rem !important;
+        padding-right: 1.2rem !important;
+        display: flex !important;
+        align-items: center !important;
+        transition: none !important;
+    }
+
+    .navbar-brand {
+        display: flex !important;
+        align-items: center !important;
+        height: var(--navbar-height) !important;
+    }
+
+    .navbar-brand img {
+        height: 60px !important;
+        transition: none !important;
+    }
+
+    .nav-links {
+        transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.5s ease;
+        z-index: 1050;
+        background: rgba(5, 5, 5, 0.98);
+        backdrop-filter: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 !important;
+        padding-top: var(--safe-top) !important;
+        height: 100dvh !important;
+        overflow-y: auto; /* Allow scrolling if menu is long */
+    }
+
+    /* Mobile Menu Header */
+    .nav-links li:first-child {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        height: var(--navbar-height) !important;
+        padding: 0 1.2rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        margin-bottom: 1.5rem !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Individual List Item Spacing */
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+        padding: 0.5rem 0; /* Vertical gap between menu items */
+        flex-shrink: 0;
+    }
+
+    .nav-links.active li {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* THE FIX: Link Padding */
+    .nav-links a {
+        font-size: 1.5rem !important;
+        padding: 1.2rem 2rem !important; /* Massive clickable area and visual padding */
+        width: 100%;
+        display: flex !important; /* Ensure it fills the width */
+        justify-content: center;
+        margin: 0 !important;
+        letter-spacing: 3px !important;
+    }
+
+    /* Dropdown Mobile Adjustments */
+    .dropdown-content {
+        position: static !important;
+        display: none;
+        width: 100% !important;
+        background: transparent !important; /* Removed contrast background for mobile */
+        border: none;
+        box-shadow: none;
+        margin: 0;
+        padding: 0.5rem 0 !important;
+    }
+
+    .dropdown.active .dropdown-content {
+        display: block !important;
+    }
+
+    .dropdown-content a {
+        font-size: 1.2rem !important;
+        padding: 1rem !important;
+        text-align: center !important;
+        color: var(--text-muted);
+    }
+
+    /* Social Icons Section */
+    .nav-links li:last-child {
+        margin-top: auto !important;
+        padding: 3rem 1.5rem 6rem 1.5rem !important; /* Heavy bottom padding to move icons down */
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-toggle {
+        display: flex;
+        z-index: 2000;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
