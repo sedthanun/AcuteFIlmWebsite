@@ -7,11 +7,21 @@
 
 ## 🛠 Technology
 - **Frontend:** Next.js 15 (App Router), React 19, JavaScript (ES6+), Vanilla CSS3
+- **AI Chatbot:** Mock AI Engine (Keyword Matching) พร้อม Firestore REST API สำหรับข้อมูลภาพยนตร์แบบ Real-time
 - **Backend/Hosting:** [Firebase](https://firebase.google.com/)
-  - **Firebase Hosting:** สำหรับการจัดวางไฟล์เว็บ
+  - **Firebase Hosting:** สำหรับการจัดวางไฟล์เว็บ (Multi-site: main, v3, redesign)
   - **Cloud Firestore:** สำหรับจัดเก็บข้อมูลข่าวสารและภาพยนตร์
 
 ## 📜 Changelog
+
+### [v3.2] - 2026-05-15 (AI Chatbot & Cache Optimization)
+- **AI Chatbot (`/ai-chat`):** เพิ่มหน้าแชทบอท AI สำหรับตอบคำถามเกี่ยวกับ AcuteFilm ภาพยนตร์ บริการ และข้อมูลติดต่อ
+- **Smart Movie Listing:** แยกการแสดงผลงาน — ถาม "หนัง" จะแสดงเฉพาะ AcuteFilm Originals, ถาม "ผลงาน" จะแสดงทั้งหมด
+- **Video Link Integration:** AI ส่งลิงก์ YouTube ให้ดูหนังได้ตรงในแชท โดยแปลง Embed URL → Watch URL อัตโนมัติ
+- **Client-side Movie Fetch:** แก้ปัญหาข้อมูลหนังว่างเปล่าจาก Static Export ด้วยการดึงข้อมูลฝั่ง Client เป็น Fallback
+- **Cache Busting Strategy:** เพิ่ม `no-cache` Meta Tags, อัปเดต `firebase.json` headers สำหรับ HTML (no-cache) และ Static Assets (immutable, 1 year)
+- **Error Boundary:** เพิ่ม `error.jsx` สำหรับดักจับ ChunkLoadError หลัง Deploy ใหม่ พร้อม Auto-Reload
+- **Routing Fix:** แก้ไข `cleanUrls: true` และลบ rewrites ที่ไม่ครบ/ผิดพลาดสำหรับ target `redesign`
 
 ### [v3.1] - 2026 (Next.js Migration)
 - **Framework Upgrade:** ย้ายโปรเจกต์สู่ Next.js 15 (App Router) เพื่อความเร็วและประสิทธิภาพสูงสุด

@@ -5,7 +5,7 @@
   "hosting": [
     {
       "target": "main",
-      "public": "redesign-next/out",
+      "public": "redesign-ai/out",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -14,7 +14,36 @@
         "admin/**"
       ],
       "cleanUrls": true,
-      "trailingSlash": false
+      "trailingSlash": false,
+      "headers": [
+        {
+          "source": "**/*.@(html|json)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+            }
+          ]
+        },
+        {
+          "source": "_next/static/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(jpg|jpeg|png|gif|svg|webp|ico|woff|woff2|ttf|otf|mp4|webm)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        }
+      ]
     },
     {
       "target": "v3",
@@ -27,29 +56,71 @@
         "admin/**"
       ],
       "cleanUrls": true,
-      "trailingSlash": false
-    },
-    {
-      "target": "redesign",
-      "public": "redesign-prototype",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "admin.html"],
-      "cleanUrls": false,
+      "trailingSlash": false,
       "headers": [
         {
-          "source": "**/*",
+          "source": "**/*.@(html|json)",
           "headers": [
             {
               "key": "Cache-Control",
               "value": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
             }
           ]
+        },
+        {
+          "source": "_next/static/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(jpg|jpeg|png|gif|svg|webp|ico|woff|woff2|ttf|otf|mp4|webm)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
         }
-      ],
-      "rewrites": [
-        { "source": "/", "destination": "/index.html" },
-        { "source": "/movie", "destination": "/movie.html" },
-        { "source": "/news", "destination": "/news.html" },
-        { "source": "/about-us", "destination": "/about-us.html" }
+      ]
+    },
+    {
+      "target": "redesign",
+      "public": "redesign-ai/out",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "admin.html"],
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "headers": [
+        {
+          "source": "**/*.@(html|json)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+            }
+          ]
+        },
+        {
+          "source": "_next/static/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(jpg|jpeg|png|gif|svg|webp|ico|woff|woff2|ttf|otf|mp4|webm)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        }
       ]
     }
   ]
