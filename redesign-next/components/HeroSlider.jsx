@@ -27,9 +27,9 @@ export default function HeroSlider() {
               
               // Custom Tag สำหรับแต่ละเรื่อง (แก้ไขตรงนี้ได้เลยทั้งข้อความและสี)
               const customTags = {
-                'the-fame': { text: 'AcuteFilm Original', color: 'var(--primary-color)' },
+                'the-fame': { text: 'AcuteFilm Originals', color: 'var(--primary-color)' },
                 'bystander': { text: 'VFX By AcuteFilm', color: '#ffb400' },
-                'good-old-friend': { text: 'AcuteFilm Original', color: 'var(--primary-color)' }
+                'good-old-friend': { text: 'AcuteFilm Originals', color: 'var(--primary-color)' }
               };
               
               const currentTag = customTags[slug] || { text: 'AcuteFilm Original', color: 'var(--primary-color)' };

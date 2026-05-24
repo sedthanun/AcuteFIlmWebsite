@@ -16,8 +16,10 @@ export async function generateStaticParams() {
     console.error('REST API Error generating static params:', error);
   }
 
-    return [];
+  return [];
 }
+
+
 
 async function getNewsData(slug) {
   try {
@@ -40,7 +42,7 @@ async function getNewsData(slug) {
     console.error('REST API Error fetching news detail:', error);
   }
 
-    return null;
+  return null;
 }
 
 export async function generateMetadata({ params }) {
@@ -48,12 +50,12 @@ export async function generateMetadata({ params }) {
   const slug = resolvedParams.slug;
   const news = await getNewsData(slug);
   if (!news) return { title: 'Not Found | AcuteFilm' };
-  
+
   const SITE_URL = 'https://acutefilmmovies.web.app';
   // Strip HTML for description
   const plainText = (news.content || news.story || '').replace(/<[^>]*>?/gm, '');
   const description = plainText.substring(0, 160) + (plainText.length > 160 ? '...' : '');
-  
+
   const imagePath = news.poster || '';
   const imageUrl = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
   const absoluteImageUrl = `${SITE_URL}${encodeURI(imageUrl)}`;
@@ -103,6 +105,23 @@ export default async function NewsDetail({ params }) {
       <style>{`
         .news-detail-header {
             margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-btn:hover {
+            color: var(--text-main);
         }
 
         .news-category-badge {
@@ -206,28 +225,33 @@ export default async function NewsDetail({ params }) {
 
       <section className="news-section news-detail-section">
         <div className="container">
-            <div className="news-detail-header">
-                <div id="news-categories-container" style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                  {categories.map((cat, i) => (
-                    <span key={i} className="news-category-badge">{cat.trim()}</span>
-                  ))}
-                </div>
-                <h1 id="news-title-hero" className="news-detail-title">{news.name}</h1>
+          <a href="/news" className="back-btn">
+            <i className="fas fa-arrow-left"></i> ย้อนกลับ
+          </a>
+          <div className="news-detail-header">
+            <div id="news-categories-container" style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+              {categories.map((cat, i) => (
+                <span key={i} className="news-category-badge">{cat.trim()}</span>
+              ))}
             </div>
+            <h1 id="news-title-hero" className="news-detail-title">{news.name}</h1>
+          </div>
 
-            <img id="news-featured-img" src={news.poster?.startsWith('/') ? news.poster : `/${news.poster}`} alt={news.name} className="news-featured-img" />
+          <img id="news-featured-img" src={news.poster?.startsWith('/') ? news.poster : `/${news.poster}`} alt={news.name} className="news-featured-img" />
 
-            <div className="glass news-detail-card">
-                <div id="news-content" className="news-body" dangerouslySetInnerHTML={{ __html: news.content || news.story }}></div>
+          <div className="glass news-detail-card">
+            <div id="news-content" className="news-body" dangerouslySetInnerHTML={{ __html: news.content || news.story }}></div>
 
-                <div className="news-footer-bar">
-                    <div id="news-date" className="news-date">เผยแพร่เมื่อ: {news.date}</div>
-                    <div className="share-links">
-                        <a id="fb-share" href={`https://www.facebook.com/sharer/sharer.php?u=https://acutefilmmovies.web.app/news/${resolvedParams.slug}`} target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook fa-xl"></i></a>
-                        <a id="tw-share" href={`https://twitter.com/intent/tweet?url=https://acutefilmmovies.web.app/news/${resolvedParams.slug}&text=${news.name}`} target="_blank" rel="noopener noreferrer"><i className="fas fa-retweet fa-xl"></i></a>
-                    </div>
-                </div>
+            <div className="news-footer-bar">
+              <div id="news-date" className="news-date">
+                เผยแพร่เมื่อ: <strong>{news.date}</strong>
+              </div>
+              <div className="share-links">
+                <a id="fb-share" href={`https://www.facebook.com/sharer/sharer.php?u=https://acutefilmmovies.web.app/news/${resolvedParams.slug}`} target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook fa-xl"></i></a>
+                <a id="tw-share" href={`https://twitter.com/intent/tweet?url=https://acutefilmmovies.web.app/news/${resolvedParams.slug}&text=${news.name}`} target="_blank" rel="noopener noreferrer"><i className="fas fa-retweet fa-xl"></i></a>
+              </div>
             </div>
+          </div>
         </div>
       </section>
     </>

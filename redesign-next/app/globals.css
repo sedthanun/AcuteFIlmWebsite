@@ -1,9 +1,11 @@
 @import "tailwindcss";
+@source "./admin";
+
 
 @font-face {
     font-family: 'maledpan-regular';
     src: url('/fonts/maledpan-regular-webfont-webfont.woff2') format('woff2'),
-         url('/fonts/maledpan-regular-webfont-webfont.woff') format('woff');
+        url('/fonts/maledpan-regular-webfont-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -331,6 +333,21 @@ body {
 
 .news-detail-section {
     @apply pt-[200px]! max-md:pt-[120px]! max-md:pb-12!;
+}
+
+/* Links inside news article body (from dangerouslySetInnerHTML) */
+.news-body a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.news-body a:hover {
+    color: #fff;
+    text-shadow: 0 0 12px var(--primary-color);
 }
 
 .section-title {
@@ -825,6 +842,7 @@ footer {
         font-size: 1rem;
     }
 }
+
 /* Site Visitor Count Section */
 .site-visitor-section {
     padding: 1rem 0;
@@ -853,7 +871,9 @@ footer {
 
 .site-count-badge span {
     font-weight: 600;
-}/* Video Modal */
+}
+
+/* Video Modal */
 .vm-modal {
     position: fixed;
     top: 0;
@@ -935,7 +955,7 @@ footer {
     .vm-container {
         width: 95%;
     }
-    
+
     .vm-close {
         top: -50px;
         width: 40px;

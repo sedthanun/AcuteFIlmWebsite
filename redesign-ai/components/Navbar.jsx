@@ -34,6 +34,8 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const pathname = usePathname();
+  const isAdminWorkspaceRoute = pathname === '/admin' || pathname?.startsWith('/admin/editor');
+  const hideNavbar = pathname?.startsWith('/admin/editor');
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -57,11 +59,14 @@ export default function Navbar() {
     document.body.style.overflow = newState ? 'hidden' : 'auto';
   };
 
+  if (hideNavbar) return null;
+
+  const navbarIsDark = isScrolled || isAdminWorkspaceRoute;
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled shadow-lg bg-black/70 backdrop-blur-md' : 'bg-transparent'} fixed top-0 w-full z-[1000] flex justify-between items-center transition-all duration-300`}>
+    <nav className={`navbar ${navbarIsDark ? 'scrolled shadow-lg bg-black/70 backdrop-blur-md' : 'bg-transparent'} fixed top-0 w-full z-[1000] flex justify-between items-center transition-all duration-300`}>
       <Link href="/" className="navbar-brand">
-        <img src="/img/logo-new.png" alt="AcuteFilm Logo" className={`transition-all duration-300 ${isScrolled ? 'h-[60px]' : 'h-[80px]'}`} />
+        <img src="/img/logo-new.png" alt="AcuteFilm Logo" className={`transition-all duration-300 ${navbarIsDark ? 'h-[60px]' : 'h-[80px]'}`} />
       </Link>
 
       <ul className={`nav-links fixed top-0 right-0 w-full h-dvh bg-black/95 flex flex-col transition-transform duration-500 ease-in-out z-[1050] ${isMobileMenuOpen ? 'translate-x-0 active' : 'translate-x-full'} md:static md:w-auto md:h-auto md:bg-transparent md:flex-row md:items-center md:gap-10 md:ml-auto md:transition-none md:translate-x-0`}>

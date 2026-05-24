@@ -17,7 +17,7 @@ const anuphan = Anuphan({
 export const metadata = {
   metadataBase: new URL('https://acutefilmmovies.web.app'),
   title: 'AcuteFilm | Media Production',
-  description: 'Acute Film - Video Production, Visual Effects, Motion Graphics',
+  description: 'AcuteFilm - Video Production, Visual Effects, Motion Graphics',
   openGraph: {
     siteName: 'AcuteFilm',
   }

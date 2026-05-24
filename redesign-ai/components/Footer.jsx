@@ -5,7 +5,7 @@ export default function Footer() {
   const pathname = usePathname();
   
   // ซ่อน Footer ในหน้า AI Chat และ Admin
-  if (pathname === '/ai-chat' || pathname === '/admin') return null;
+  if (pathname === '/ai-chat' || pathname === '/admin' || pathname?.startsWith('/admin/editor')) return null;
 
   return (
     <footer>

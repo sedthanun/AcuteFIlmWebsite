@@ -2,17 +2,20 @@
 
 ยินดีต้อนรับสู่โปรเจกต์เว็บไซต์อย่างเป็นทางการของ **AcuteFilm** 
 
-## 🎬 About
+## About
 เว็บไซต์นี้สร้างขึ้นเพื่อนำเสนอผลงานภาพยนตร์ ข่าวสาร และบริการต่างๆ ของ AcuteFilm โดยเน้นดีไซน์ที่มินิมอล 
 
-## 🛠 Technology
+## Technology
 - **Frontend:** Next.js 15 (App Router), React 19, JavaScript (ES6+), Vanilla CSS3
 - **AI Chatbot:** Mock AI Engine (Keyword Matching) พร้อม Firestore REST API สำหรับข้อมูลภาพยนตร์แบบ Real-time
 - **Backend/Hosting:** [Firebase](https://firebase.google.com/)
   - **Firebase Hosting:** สำหรับการจัดวางไฟล์เว็บ (Multi-site: main, v3, redesign)
   - **Cloud Firestore:** สำหรับจัดเก็บข้อมูลข่าวสารและภาพยนตร์
 
-## 📜 Changelog
+## Changelog
+
+### [v3.3] - 2026-05-24 (Admin Editor Improve & UX Improvement)
+- **Admin Update** ปรับโครงสร้างและ UI ของระบบ Admin/Editor ภายในเพื่อให้จัดการคอนเทนต์ง่ายขึ้น
 
 ### [v3.2] - 2026-05-15 (AI Chatbot & Cache Optimization)
 - **AI Chatbot (`/ai-chat`):** เพิ่มหน้าแชทบอท AI สำหรับตอบคำถามเกี่ยวกับ AcuteFilm ภาพยนตร์ บริการ และข้อมูลติดต่อ
@@ -47,4 +50,4 @@
 - **Initial Launch:** เริ่มต้นโปรเจกต์และเปิดตัวเว็บไซต์ AcuteFilm ครั้งแรก
 
 ---
-© 2026 AcuteFilm Team. All rights reserved.
+© 2026 AcuteFilm. All rights reserved.

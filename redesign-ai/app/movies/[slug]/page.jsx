@@ -125,7 +125,12 @@ export default async function MovieDetail({ params }) {
             <div className="movie-details-info">
                 <div className="glass" style={{ padding: '3rem', borderRadius: '24px', marginBottom: '3rem' }}>
                     <h2 style={{ marginBottom: '1.5rem', fontWeight: 700 }}>เรื่องย่อ (Synopsis)</h2>
-                    <p id="movie-synopsis" style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '2rem', whiteSpace: 'pre-wrap' }}>{movie.synopsis}</p>
+                    {/* Synopsis is authored in the admin editor as trusted HTML */}
+                    <p
+                        id="movie-synopsis"
+                        style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '2rem', whiteSpace: 'pre-wrap' }}
+                        dangerouslySetInnerHTML={{ __html: movie.synopsis || '' }}
+                    />
                     
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '2rem', borderTop: '1px solid var(--surface-border)', paddingTop: '2rem' }}>
                         <div>
