@@ -1,9 +1,9 @@
 # AcuteFilm Website 
 
-ยินดีต้อนรับสู่โปรเจกต์เว็บไซต์อย่างเป็นทางการของ **AcuteFilm** 
+ยินดีต้อนรับสู่โปรเจกต์เว็บไซต์อย่างเป็นทางการของ **AcuteFilm**  
 
 ## About
-เว็บไซต์นี้สร้างขึ้นเพื่อนำเสนอผลงานภาพยนตร์ ข่าวสาร และบริการต่างๆ ของ AcuteFilm โดยเน้นดีไซน์ที่มินิมอล 
+Content Management System (Wordpress-Clone) ที่สร้างขึ้นอย่าง Custom เพื่อ AcuteFilm
 
 ## Technology
 - **Frontend:** Next.js 15 (App Router), React 19, JavaScript (ES6+), Vanilla CSS3
