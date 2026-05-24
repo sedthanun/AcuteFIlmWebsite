@@ -1,29 +1,5 @@
 import Link from 'next/link';
-
-// ดึงข้อมูลล่วงหน้า (Pre-rendering / SSG) เพื่อให้โหลดเร็วขึ้น
-async function getMovies() {
-  try {
-    const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies?t=${Date.now()}`);
-    if (res.ok) {
-      const data = await res.json();
-      if (data.documents) {
-        const movies = data.documents.map(doc => {
-          const fields = doc.fields;
-          const item = { id: doc.name.split('/').pop() };
-          for (const [key, value] of Object.entries(fields)) {
-            item[key] = value.stringValue || value.integerValue || value.booleanValue || '';
-          }
-          return item;
-        });
-        return movies.sort((a, b) => (b.release || '').localeCompare(a.release || ''));
-      }
-    }
-  } catch (error) {
-    console.error('REST API Error:', error);
-  }
-
-    return [];
-}
+import { fetchFirestoreCollection } from '@/lib/firestore-rest';
 
 export const metadata = {
   title: 'ผลงานภาพยนตร์ | AcuteFilm',
@@ -31,7 +7,8 @@ export const metadata = {
 };
 
 export default async function MoviesPage() {
-  const movies = await getMovies();
+  const movies = await fetchFirestoreCollection('movies');
+  const sortedMovies = movies.sort((a, b) => String(b.release || '').localeCompare(String(a.release || '')));
 
   return (
     <>
@@ -49,26 +26,26 @@ export default async function MoviesPage() {
       <section className="news-section" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className="movie-grid">
-            {movies.length === 0 ? (
-                <p style={{ color: 'red', gridColumn: '1 / -1', textAlign: 'center' }}>ไม่สามารถโหลดข้อมูลหนังได้ หรือยังไม่มีข้อมูล</p>
+            {sortedMovies.length === 0 ? (
+              <p style={{ color: 'red', gridColumn: '1 / -1', textAlign: 'center' }}>ไม่สามารถโหลดข้อมูลหนังได้ หรือยังไม่มีข้อมูล</p>
             ) : (
-                movies.map(item => {
-                    const isOriginal = (item.type || '').toLowerCase().includes('acutefilm');
-                    const themeColor = isOriginal ? 'var(--primary-color)' : '#ffb400';
+              sortedMovies.map((item) => {
+                const isOriginal = (item.type || '').toLowerCase().includes('acutefilm');
+                const themeColor = isOriginal ? 'var(--primary-color)' : '#ffb400';
 
-                    return (
-                        <div key={item.id} className="movie-card">
-                            <img src={item.poster?.startsWith('/') ? item.poster : `/${item.poster}`} alt={item.name} loading="lazy" />
-                            <div className="card-content">
-                                <h3>{item.name}</h3>
-                                <p style={{ color: themeColor, fontSize: '0.8rem', marginBottom: '0.8rem', fontWeight: 'bold' }}>{item.type || ''}</p>
-                                <Link href={`/movies/${item.slug}`} className="card-link" style={{ fontSize: '0.9rem' }}>
-                                    ดูเพิ่มเติม
-                                </Link>
-                            </div>
-                        </div>
-                    );
-                })
+                return (
+                  <div key={item.id || item.slug} className="movie-card">
+                    <img src={item.poster?.startsWith('/') ? item.poster : `/${item.poster}`} alt={item.name} loading="lazy" />
+                    <div className="card-content">
+                      <h3>{item.name}</h3>
+                      <p style={{ color: themeColor, fontSize: '0.8rem', marginBottom: '0.8rem', fontWeight: 'bold' }}>{item.type || ''}</p>
+                      <Link href={`/movies/${item.slug}`} className="card-link" style={{ fontSize: '0.9rem' }}>
+                        ดูเพิ่มเติม
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })
             )}
           </div>
         </div>

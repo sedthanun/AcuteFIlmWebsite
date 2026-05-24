@@ -2,36 +2,12 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
-export default function NewsSection() {
-  const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function NewsSection({ news = [] }) {
+  const [loading, setLoading] = useState(news.length === 0);
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    async function loadNews() {
-      try {
-        const res = await fetch('https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/news');
-        if (res.ok) {
-          const data = await res.json();
-          if (data.documents) {
-            const newsList = data.documents.map(doc => {
-              const item = { id: doc.name.split('/').pop() };
-              for (const [key, value] of Object.entries(doc.fields)) {
-                item[key] = value.stringValue || value.integerValue || value.booleanValue || '';
-              }
-              return item;
-            });
-            // เอาแค่ 3 ข่าวล่าสุด โดยเรียงจากวันที่
-            setNews(newsList.sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 3));
-          }
-        }
-      } catch (error) {
-        console.error('Error loading news from Firestore:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadNews();
+    setLoading(false);
   }, []);
 
   useEffect(() => {

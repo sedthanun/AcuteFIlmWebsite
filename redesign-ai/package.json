@@ -5,8 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "npm run backup:data && npm run build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "backup:data": "node ./scripts/backup-firestore-data.mjs",
+    "restore:data": "node ./scripts/restore-firestore-data.mjs"
   },
   "dependencies": {
     "firebase": "^10.11.1",

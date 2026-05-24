@@ -1,66 +1,34 @@
 import { notFound } from 'next/navigation';
+import { fetchFirestoreCollection } from '@/lib/firestore-rest';
+import VideoPlayerTrigger from './VideoPlayerTrigger';
 
 export async function generateStaticParams() {
-  try {
-    const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies?t=${Date.now()}`);
-    if (res.ok) {
-      const data = await res.json();
-      if (data.documents) {
-        return data.documents.map(doc => {
-          const slugValue = doc.fields.slug?.stringValue || '';
-          return { slug: slugValue };
-        }).filter(item => item.slug);
-      }
-    }
-  } catch (error) {
-    console.error('REST API Error generating static params:', error);
-  }
-
-    return [];
-}
-
-async function getMovieData(slug) {
-  try {
-    const res = await fetch(`https://firestore.googleapis.com/v1/projects/acutefilmmovies/databases/(default)/documents/movies?t=${Date.now()}`);
-    if (res.ok) {
-      const data = await res.json();
-      if (data.documents) {
-        // Case-insensitive lookup
-        const doc = data.documents.find(d => (d.fields.slug?.stringValue || '').toLowerCase() === (slug || '').toLowerCase());
-        if (doc) {
-          const item = { id: doc.name.split('/').pop() };
-          for (const [key, value] of Object.entries(doc.fields)) {
-            item[key] = value.stringValue || value.integerValue || value.booleanValue || '';
-          }
-          return item;
-        }
-      }
-    }
-  } catch (error) {
-    console.error('REST API Error fetching movie detail:', error);
-  }
-
-    return null;
+  const movies = await fetchFirestoreCollection('movies');
+  return movies.map((item) => ({ slug: item.slug })).filter((item) => item.slug);
 }
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-  const movie = await getMovieData(slug);
-  if (!movie) return { title: 'Not Found | AcuteFilm' };
-  
+  const movies = await fetchFirestoreCollection('movies');
+  const movie = movies.find((item) => (item.slug || '').toLowerCase() === (slug || '').toLowerCase());
+
+  if (!movie) {
+    return { title: 'Not Found | AcuteFilm' };
+  }
+
   const SITE_URL = 'https://acutefilmmovies.web.app';
   const description = (movie.synopsis || '').substring(0, 160) + (movie.synopsis?.length > 160 ? '...' : '');
   const imagePath = movie.hero || movie.poster || '';
   const imageUrl = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
   const absoluteImageUrl = `${SITE_URL}${encodeURI(imageUrl)}`;
-  
+
   return {
     title: `${movie.name} | AcuteFilm`,
-    description: description,
+    description,
     openGraph: {
       title: `${movie.name} | AcuteFilm`,
-      description: description,
+      description,
       images: [
         {
           url: absoluteImageUrl,
@@ -68,7 +36,7 @@ export async function generateMetadata({ params }) {
           width: 1200,
           height: 630,
           alt: movie.name,
-          type: 'image/jpeg', // Standard fallback
+          type: 'image/jpeg',
         },
       ],
       url: `${SITE_URL}/movies/${slug}`,
@@ -79,7 +47,7 @@ export async function generateMetadata({ params }) {
     twitter: {
       card: 'summary_large_image',
       title: `${movie.name} | AcuteFilm`,
-      description: description,
+      description,
       images: [absoluteImageUrl],
     }
   };
@@ -87,7 +55,8 @@ export async function generateMetadata({ params }) {
 
 export default async function MovieDetail({ params }) {
   const resolvedParams = await params;
-  const movie = await getMovieData(resolvedParams.slug);
+  const movies = await fetchFirestoreCollection('movies');
+  const movie = movies.find((item) => (item.slug || '').toLowerCase() === (resolvedParams.slug || '').toLowerCase());
 
   if (!movie) {
     notFound();
@@ -121,11 +90,9 @@ export default async function MovieDetail({ params }) {
 
       <section className="news-section" style={{ paddingTop: 0, marginTop: '-100px', position: 'relative', zIndex: 10 }}>
         <div className="container movie-detail-container">
-            
             <div className="movie-details-info">
                 <div className="glass" style={{ padding: '3rem', borderRadius: '24px', marginBottom: '3rem' }}>
                     <h2 style={{ marginBottom: '1.5rem', fontWeight: 700 }}>เรื่องย่อ (Synopsis)</h2>
-                    {/* Synopsis is authored in the admin editor as trusted HTML */}
                     <p
                         id="movie-synopsis"
                         style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '2rem', whiteSpace: 'pre-wrap' }}
@@ -157,10 +124,10 @@ export default async function MovieDetail({ params }) {
                 <VideoPlayerTrigger videoUrl={videoUrl} thumbnail={(movie.hero || movie.poster)?.startsWith('/') ? (movie.hero || movie.poster) : `/${movie.hero || movie.poster}`} />
 
                 <div className="share-links" style={{ marginTop: '3rem', display: 'flex', gap: '2rem', justifyContent: 'center' }}>
-                    <a id="fb-share" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://acutefilmmovies.web.app/movies/${resolvedParams.slug}`)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-main)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 0.7, transition: '0.3s' }}>
+                    <a id="fb-share" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://acutefilmmovies.web.app/movies/${movie.slug}`)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-main)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 0.7, transition: '0.3s' }}>
                         <i className="fab fa-facebook fa-2x"></i> <span>Share</span>
                     </a>
-                    <a id="tw-share" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://acutefilmmovies.web.app/movies/${resolvedParams.slug}`)}&text=${encodeURIComponent(`Watching ${movie.name}`)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-main)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 0.7, transition: '0.3s' }}>
+                    <a id="tw-share" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://acutefilmmovies.web.app/movies/${movie.slug}`)}&text=${encodeURIComponent(`Watching ${movie.name}`)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-main)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.8rem', opacity: 0.7, transition: '0.3s' }}>
                         <i className="fab fa-x-twitter fa-2x"></i> <span>Post</span>
                     </a>
                 </div>
@@ -175,5 +142,3 @@ export default async function MovieDetail({ params }) {
     </>
   );
 }
-
-import VideoPlayerTrigger from './VideoPlayerTrigger';
