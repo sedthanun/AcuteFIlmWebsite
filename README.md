@@ -6,13 +6,15 @@
 Content Management System (Wordpress-Clone) ที่สร้างขึ้นอย่าง Custom เพื่อ AcuteFilm
 
 ## Technology
-- **Frontend:** Next.js 15 (App Router), React 19, JavaScript (ES6+), Vanilla CSS3
+- **Frontend:** Next.js 16 (App Router), React 19.2, JavaScript (ES6+), Vanilla CSS3
 - **AI Chatbot:** Mock AI Engine (Keyword Matching) พร้อม Firestore REST API สำหรับข้อมูลภาพยนตร์แบบ Real-time
 - **Backend/Hosting:** [Firebase](https://firebase.google.com/)
   - **Firebase Hosting:** สำหรับการจัดวางไฟล์เว็บ (Multi-site: main, v3, redesign)
   - **Cloud Firestore:** สำหรับจัดเก็บข้อมูลข่าวสารและภาพยนตร์
 
 ## Changelog
+### [v3.4] - 2026-05-26 (AI & Patch)
+- อัปเกรดระบบ AI ต่อ API ให้ตอบสนองได้ฉลาดและแม่นยำยิ่งขึ้น พร้อมประสบการณ์ใช้งานที่ลื่นไหลกว่าเดิม
 
 ### [v3.3] - 2026-05-24 (Admin Editor Improve & UX Improvement)
 - **Admin Update** ปรับโครงสร้างและ UI ของระบบ Admin/Editor ภายในเพื่อให้จัดการคอนเทนต์ง่ายขึ้น
